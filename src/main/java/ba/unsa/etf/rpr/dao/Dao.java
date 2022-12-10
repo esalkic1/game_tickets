@@ -29,7 +29,15 @@ public interface Dao<T> {
      */
     T update(T item);
 
+    /**
+     * Method that deletes an entity from database based on id
+     * @param id primary key of the to be deleted entity
+     */
     void delete(int id);
 
+    /**
+     * Method that returns all the items stored in the database
+     * @return returns all items as a list
+     */
     List<T> getAll();
 }
