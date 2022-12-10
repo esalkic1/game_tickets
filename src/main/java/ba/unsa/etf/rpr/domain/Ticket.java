@@ -1,5 +1,7 @@
 package ba.unsa.etf.rpr.domain;
 
+import java.util.Objects;
+
 public class Ticket {
     private int id;
     private Game game;
@@ -45,5 +47,18 @@ public class Ticket {
 
     public void setStand(String stand) {
         this.stand = stand;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return id == ticket.id && price == ticket.price && game.equals(ticket.game) && customer.equals(ticket.customer) && stand.equals(ticket.stand);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, game, customer, price, stand);
     }
 }
