@@ -22,7 +22,11 @@ public interface Dao<T> {
      */
     T add(T item);
 
-
+    /**
+     * Method that updates existing entity in database
+     * @param item to be updated
+     * @return updated version of entity
+     */
     T update(T item);
 
     void delete(int id);
