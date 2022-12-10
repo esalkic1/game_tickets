@@ -1,5 +1,7 @@
 package ba.unsa.etf.rpr.domain;
 
+import java.util.Objects;
+
 /**
  * Ticket customer information
  *
@@ -43,5 +45,26 @@ public class Customer {
         this.numberOfTickets = numberOfTickets;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return id == customer.id && numberOfTickets == customer.numberOfTickets && name.equals(customer.name) && surname.equals(customer.surname);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, numberOfTickets);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", numberOfTickets=" + numberOfTickets +
+                '}';
+    }
 }
