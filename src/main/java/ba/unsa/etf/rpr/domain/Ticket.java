@@ -2,6 +2,10 @@ package ba.unsa.etf.rpr.domain;
 
 import java.util.Objects;
 
+/**
+ * Class for ticket information
+ * @author Emir Salkic
+ */
 public class Ticket {
     private int id;
     private Game game;
