@@ -5,6 +5,10 @@ import ba.unsa.etf.rpr.domain.Game;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Dao interface for Game class
+ * @author Emir Salkic
+ */
 public interface GameDao extends Dao<Game>{
 
     /**
