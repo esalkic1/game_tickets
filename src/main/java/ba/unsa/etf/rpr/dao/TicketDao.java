@@ -4,6 +4,10 @@ import ba.unsa.etf.rpr.domain.Ticket;
 
 import java.util.List;
 
+/**
+ * Dao interface for Ticket class
+ * @author Emir Salkic
+ */
 public interface TicketDao extends Dao<Ticket>{
 
     /**
