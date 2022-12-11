@@ -99,7 +99,14 @@ public class TicketDaoSQLImpl implements TicketDao{
 
     @Override
     public void delete(int id) {
-
+        String delete = "DELETE FROM tickets WHERE idtickets = ?";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(delete);
+            stmt.setInt(1,id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
