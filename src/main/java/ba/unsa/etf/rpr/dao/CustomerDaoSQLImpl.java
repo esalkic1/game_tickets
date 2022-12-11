@@ -77,6 +77,16 @@ public class CustomerDaoSQLImpl implements CustomerDao{
 
     @Override
     public Customer add(Customer item) {
+        int idcustomer = getMaxId();
+        String insert = "INSERT INTO customer VALUES (idcustomer, item.getName(), item.getSurname(), item.getNumberOfTickets())";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(insert);
+            stmt.executeUpdate();
+            item.setId(idcustomer);
+            return item;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
