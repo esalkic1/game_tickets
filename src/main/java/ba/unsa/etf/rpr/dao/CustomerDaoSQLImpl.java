@@ -3,6 +3,7 @@ package ba.unsa.etf.rpr.dao;
 import ba.unsa.etf.rpr.domain.Customer;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerDaoSQLImpl implements CustomerDao{
@@ -122,6 +123,23 @@ public class CustomerDaoSQLImpl implements CustomerDao{
 
     @Override
     public List<Customer> getAll() {
-        return null;
+        List<Customer> customers = new ArrayList<>();
+        String query = "SELECT * FROM customer";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Customer cstm = new Customer();
+                cstm.setId(rs.getInt("idcustomer"));
+                cstm.setName(rs.getString("name"));
+                cstm.setSurname(rs.getString("surname"));
+                cstm.setNumberOfTickets(rs.getInt("numberOfTickets"));
+                customers.add(cstm);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
     }
 }
