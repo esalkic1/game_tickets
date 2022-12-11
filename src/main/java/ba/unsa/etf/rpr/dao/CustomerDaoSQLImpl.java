@@ -31,7 +31,48 @@ public class CustomerDaoSQLImpl implements CustomerDao{
 
     @Override
     public Customer getById(int id) {
+        String query = "SELECT * FROM customer WHERE idcustomer = ?";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(query);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                Customer customer = new Customer();
+                customer.setId(rs.getInt("idcustomer"));
+                customer.setName(rs.getString("name"));
+                customer.setSurname(rs.getString("surname"));
+                customer.setNumberOfTickets(rs.getInt("numberOfTickets"));
+                rs.close();
+                return customer;
+            }
+            else {
+                return null;  // no customers in the result set
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // or "throw new RuntimeException(e)"
+        }
         return null;
+    }
+
+    /**
+     * Method that returns next id, used for inserting into database
+     * @return id for next entity
+     */
+    private int getMaxId(){
+        int id = 1;
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement("SELECT MAX(idcustomer)+1 FROM customer");
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt(1);
+                rs.close();
+                return id;
+            }
+        }catch (SQLException e){
+            System.out.println("Database problem");
+            System.out.println(e.getMessage());
+        }
+        return id;
     }
 
     @Override
