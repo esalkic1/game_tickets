@@ -3,6 +3,7 @@ package ba.unsa.etf.rpr.dao;
 import ba.unsa.etf.rpr.domain.Ticket;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TicketDaoSQLImpl implements TicketDao{
@@ -111,7 +112,25 @@ public class TicketDaoSQLImpl implements TicketDao{
 
     @Override
     public List<Ticket> getAll() {
-        return null;
+        List<Ticket> tickets = new ArrayList<>();
+        String query = "SELECT * FROM tickets";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Ticket ticket = new Ticket();
+                ticket.setId(rs.getInt("idticket"));
+                ticket.setGame(new GameDaoSQLImpl().getById(rs.getInt("game_id")));
+                ticket.setCustomer(new CustomerDaoSQLImpl().getById(rs.getInt("customer_id")));
+                ticket.setPrice(rs.getInt("price"));
+                ticket.setStand(rs.getString("stand"));
+                tickets.add(ticket);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tickets;
     }
 
     @Override
