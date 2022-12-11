@@ -141,7 +141,26 @@ public class GameDaoSQLImpl implements GameDao{
 
     @Override
     public List<Game> searchByOpponent(String text) {
-        return null;
+        List<Game> games = new ArrayList<>();
+        String query = "SELECT * FROM game WHERE opponent = ?";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(query);
+            stmt.setString(1,text);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Game game = new Game();
+                game.setId(rs.getInt("idgame"));
+                game.setCapacity(rs.getInt("capacity"));
+                game.setSold(rs.getInt("sold"));
+                game.setOpponent(rs.getString("opponent"));
+                game.setDate(rs.getDate("date"));
+                games.add(game);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return games;
     }
 
     @Override
