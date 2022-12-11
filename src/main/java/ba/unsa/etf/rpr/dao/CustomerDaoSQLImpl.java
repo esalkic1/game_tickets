@@ -109,6 +109,14 @@ public class CustomerDaoSQLImpl implements CustomerDao{
 
     @Override
     public void delete(int id) {
+        String delete = "DELETE FROM customer WHERE idcustomer = ?";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(delete);
+            stmt.setInt(1,id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
