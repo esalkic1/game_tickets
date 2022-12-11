@@ -11,6 +11,11 @@ public class CustomerDaoSQLImpl implements CustomerDao{
     private Connection connection;
 
     public CustomerDaoSQLImpl() {
+       /* try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }*/
         try {
             this.connection = DriverManager.getConnection("jdbc:mysql://sql7.freemysqlhosting.net:3306/?user=sql7582893", "sql7582893", "wva4w4nSBZ");
         } catch (Exception e) {
@@ -21,12 +26,48 @@ public class CustomerDaoSQLImpl implements CustomerDao{
 
     @Override
     public List<Customer> searchByName(String text) {
-        return null;
+        List<Customer> customers = new ArrayList<>();
+        String query = "SELECT * FROM customer WHERE name = ?";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(query);
+            stmt.setString(1,text);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Customer cstm = new Customer();
+                cstm.setId(rs.getInt("idcustomer"));
+                cstm.setName(rs.getString("name"));
+                cstm.setSurname(rs.getString("surname"));
+                cstm.setNumberOfTickets(rs.getInt("numberOfTickets"));
+                customers.add(cstm);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
     }
 
     @Override
     public List<Customer> searchBySurname(String text) {
-        return null;
+        List<Customer> customers = new ArrayList<>();
+        String query = "SELECT * FROM customer WHERE surname = ?";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(query);
+            stmt.setString(1,text);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Customer cstm = new Customer();
+                cstm.setId(rs.getInt("idcustomer"));
+                cstm.setName(rs.getString("name"));
+                cstm.setSurname(rs.getString("surname"));
+                cstm.setNumberOfTickets(rs.getInt("numberOfTickets"));
+                customers.add(cstm);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
     }
 
     @Override
