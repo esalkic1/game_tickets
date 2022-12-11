@@ -92,6 +92,18 @@ public class CustomerDaoSQLImpl implements CustomerDao{
 
     @Override
     public Customer update(Customer item) {
+        String update = "UPDATE customer SET name = ?, surname = ?, numberOfTickets = ? WHERE idcustomer = ?";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(update);
+            stmt.setString(1, item.getName());
+            stmt.setString(2, item.getSurname());
+            stmt.setInt(3, item.getNumberOfTickets());
+            stmt.setInt(4, item.getId());
+            stmt.executeUpdate();
+            return item;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
