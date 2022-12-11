@@ -165,6 +165,24 @@ public class GameDaoSQLImpl implements GameDao{
 
     @Override
     public List<Game> getByDateRange(Date start, Date end) {
-        return null;
+        List<Game> games = new ArrayList<>();
+        String query = "SELECT * FROM game WHERE date BETWEEN start AND end";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Game game = new Game();
+                game.setId(rs.getInt("idgame"));
+                game.setCapacity(rs.getInt("capacity"));
+                game.setSold(rs.getInt("sold"));
+                game.setOpponent(rs.getString("opponent"));
+                game.setDate(rs.getDate("date"));
+                games.add(game);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return games;
     }
 }
