@@ -12,8 +12,7 @@ public class CustomerDaoSQLImpl implements CustomerDao{
 
     public CustomerDaoSQLImpl() {
         try {
-            this.connection = DriverManager.getConnection(
-                    "jdbc:mysql://sql7.freemysqlhosting.net:3306/?user=sql7582893", "sql7582893", "wva4w4nSBZ");
+            this.connection = DriverManager.getConnection("jdbc:mysql://sql7.freemysqlhosting.net:3306/?user=sql7582893", "sql7582893", "wva4w4nSBZ");
         } catch (Exception e) {
             e.printStackTrace();
         }
