@@ -49,8 +49,39 @@ public class GameDaoSQLImpl implements GameDao{
         return null;
     }
 
+    /**
+     * Method that returns next id, used for inserting into database
+     * @return id for next entity
+     */
+    private int getMaxId(){
+        int id = 1;
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement("SELECT MAX(idgame)+1 FROM game");
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt(1);
+                rs.close();
+                return id;
+            }
+        }catch (SQLException e){
+            System.out.println("Database problem");
+            System.out.println(e.getMessage());
+        }
+        return id;
+    }
+
     @Override
     public Game add(Game item) {
+        int idgame = getMaxId();
+        String insert = "INSERT INTO game VALUES (idgame, item.getCapacity(), item.getSold(), item.getOpponent(), item.getDate())";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(insert);
+            stmt.executeUpdate();
+            item.setId(idgame);
+            return item;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
