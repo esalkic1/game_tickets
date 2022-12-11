@@ -1,6 +1,5 @@
 package ba.unsa.etf.rpr.dao;
 
-import ba.unsa.etf.rpr.domain.Game;
 import ba.unsa.etf.rpr.domain.Ticket;
 
 import java.sql.*;
@@ -82,6 +81,19 @@ public class TicketDaoSQLImpl implements TicketDao{
 
     @Override
     public Ticket update(Ticket item) {
+        String update = "UPDATE tickets SET game_id = ?, customer_id = ?, price = ?, stand = ? WHERE idtickets = ?";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(update);
+            stmt.setInt(1, item.getGame().getId());
+            stmt.setInt(2, item.getCustomer().getId());
+            stmt.setInt(3, item.getPrice());
+            stmt.setString(4, item.getStand());
+            stmt.setInt(5, item.getId());
+            stmt.executeUpdate();
+            return item;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
