@@ -1,8 +1,10 @@
 package ba.unsa.etf.rpr.dao;
 
+import ba.unsa.etf.rpr.domain.Customer;
 import ba.unsa.etf.rpr.domain.Game;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -87,17 +89,54 @@ public class GameDaoSQLImpl implements GameDao{
 
     @Override
     public Game update(Game item) {
+        String update = "UPDATE game SET capacity = ?, sold = ?, opponent = ?, date = ? WHERE idgame = ?";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(update);
+            stmt.setInt(1, item.getCapacity());
+            stmt.setInt(2, item.getSold());
+            stmt.setString(3, item.getOpponent());
+            stmt.setDate(4, (java.sql.Date) item.getDate());
+            stmt.executeUpdate();
+            return item;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public void delete(int id) {
-
+        String delete = "DELETE FROM game WHERE idgame = ?";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(delete);
+            stmt.setInt(1,id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<Game> getAll() {
-        return null;
+        List<Game> games = new ArrayList<>();
+        String query = "SELECT * FROM game";
+        try {
+            PreparedStatement stmt = this.connection.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Game game = new Game();
+                game.setId(rs.getInt("idgame"));
+                game.setCapacity(rs.getInt("capacity"));
+                game.setSold(rs.getInt("sold"));
+                game.setOpponent(rs.getString("opponent"));
+                game.setDate(rs.getDate("date"));
+                games.add(game);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return games;
     }
 
     @Override
