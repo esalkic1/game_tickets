@@ -10,16 +10,11 @@ import java.util.List;
 
 public class GameDaoSQLImpl implements GameDao{
 
-    private Connection connection;
+    private Connection connection = null;
 
     public GameDaoSQLImpl() {
-       /* try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }*/
         try {
-            this.connection = DriverManager.getConnection("jdbc:mysql://sql7.freemysqlhosting.net:3306/?user=sql7582893", "sql7582893", "wva4w4nSBZ");
+            this.connection = DriverManager.getConnection("jdbc:mysql://sql.freedb.tech:3306/freedb_RPRprojekat", "freedb_esalkic1", "?RHx$54HQjTFABG");
         } catch (Exception e) {
             e.printStackTrace();
         }
