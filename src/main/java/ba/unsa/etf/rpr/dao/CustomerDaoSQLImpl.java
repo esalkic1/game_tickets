@@ -12,25 +12,11 @@ public class CustomerDaoSQLImpl implements CustomerDao{
 
     public CustomerDaoSQLImpl() {
         try {
-            //Class.forName("com.mysql.cj.jdbc.Driver");
             this.connection = DriverManager.getConnection("jdbc:mysql://sql.freedb.tech:3306/freedb_RPRprojekat", "freedb_esalkic1", "?RHx$54HQjTFABG");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-/*
-    private Connection dbConnection = null;
-    String url = "jdbc:mysql://sql.freedb.tech:3306/?user=freedb_esalkic1";
-    Properties info = new Properties();
-      info.put("user", "freedb_esalkic1");
-      info.put("password", "?RHx$54HQjTFABG");
-
-    dbConnection = DriverManager.getConnection(url, info);
-
-      if (dbConnection != null) {
-        System.out.println("Successfully connected to MySQL database test");
-    }
-*/
 
     @Override
     public List<Customer> searchByName(String text) {
