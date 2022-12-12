@@ -9,12 +9,12 @@ import java.util.List;
 
 public class TicketDaoSQLImpl implements TicketDao{
 
-    private Connection connection;
+    private Connection connection = null;
 
-    public TicketDaoSQLImpl(){
+    public TicketDaoSQLImpl() {
         try {
-            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/root", "root", "root");
-        } catch (SQLException e) {
+            this.connection = DriverManager.getConnection("jdbc:mysql://sql.freedb.tech:3306/freedb_RPRprojekat", "freedb_esalkic1", "?RHx$54HQjTFABG");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
