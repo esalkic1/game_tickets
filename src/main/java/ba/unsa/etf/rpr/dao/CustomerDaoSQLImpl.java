@@ -8,21 +8,29 @@ import java.util.List;
 
 public class CustomerDaoSQLImpl implements CustomerDao{
 
-    private Connection connection;
+    private Connection connection = null;
 
     public CustomerDaoSQLImpl() {
-       /* try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }*/
         try {
-            this.connection = DriverManager.getConnection("jdbc:mysql://sql.freedb.tech:3306/?user=freedb_esalkic1", "freedb_esalkic1", "?RHx$54HQjTFABG");
+            //Class.forName("com.mysql.cj.jdbc.Driver");
+            this.connection = DriverManager.getConnection("jdbc:mysql://sql.freedb.tech:3306/freedb_RPRprojekat", "freedb_esalkic1", "?RHx$54HQjTFABG");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+/*
+    private Connection dbConnection = null;
+    String url = "jdbc:mysql://sql.freedb.tech:3306/?user=freedb_esalkic1";
+    Properties info = new Properties();
+      info.put("user", "freedb_esalkic1");
+      info.put("password", "?RHx$54HQjTFABG");
 
+    dbConnection = DriverManager.getConnection(url, info);
+
+      if (dbConnection != null) {
+        System.out.println("Successfully connected to MySQL database test");
+    }
+*/
 
     @Override
     public List<Customer> searchByName(String text) {
@@ -119,9 +127,13 @@ public class CustomerDaoSQLImpl implements CustomerDao{
     @Override
     public Customer add(Customer item) {
         int idcustomer = getMaxId();
-        String insert = "INSERT INTO customer VALUES (idcustomer, item.getName(), item.getSurname(), item.getNumberOfTickets())";
+        String insert = "INSERT INTO customer VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement stmt = this.connection.prepareStatement(insert);
+            stmt.setInt(1,idcustomer);
+            stmt.setString(2, item.getName());
+            stmt.setString(3, item.getSurname());
+            stmt.setInt(4, item.getNumberOfTickets());
             stmt.executeUpdate();
             item.setId(idcustomer);
             return item;
