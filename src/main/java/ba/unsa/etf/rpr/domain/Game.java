@@ -7,7 +7,7 @@ import java.util.Objects;
  * Game information
  * @author Emir Salkic
  */
-public class Game {
+public class Game implements Idable{
     private int id;
     private int capacity;
     private int sold;

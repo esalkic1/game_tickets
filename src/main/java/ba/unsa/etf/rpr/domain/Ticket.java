@@ -6,7 +6,7 @@ import java.util.Objects;
  * Class for ticket information
  * @author Emir Salkic
  */
-public class Ticket {
+public class Ticket implements Idable{
     private int id;
     private Game game;
     private Customer customer;
