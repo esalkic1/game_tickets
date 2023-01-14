@@ -1,6 +1,7 @@
 package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.Game;
+import ba.unsa.etf.rpr.exceptions.TicketException;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ public interface GameDao extends Dao<Game>{
      * @param text name of the opponent team
      * @return list of games
      */
-    List<Game> searchByOpponent(String text);
+    List<Game> searchByOpponent(String text) throws TicketException;
 
     /**
      * Finds games in the given period of time
@@ -24,5 +25,5 @@ public interface GameDao extends Dao<Game>{
      * @param end ending date
      * @return list of games
      */
-    List<Game> getByDateRange(Date start, Date end);
+    List<Game> getByDateRange(Date start, Date end) throws TicketException;
 }
