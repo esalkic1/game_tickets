@@ -1,178 +1,41 @@
 package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.Customer;
+import ba.unsa.etf.rpr.exceptions.TicketException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class CustomerDaoSQLImpl implements CustomerDao{
+/**
+ * MySQL implementation of DAO
+ */
 
-    private Connection connection = null;
+public class CustomerDaoSQLImpl extends AbstractDao<Customer> implements CustomerDao{
+
 
     public CustomerDaoSQLImpl() {
-        try {
-            this.connection = DriverManager.getConnection("jdbc:mysql://sql.freedb.tech:3306/freedb_RPRprojekat", "freedb_esalkic1", "?RHx$54HQjTFABG");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public List<Customer> searchByName(String text) {
-        List<Customer> customers = new ArrayList<>();
-        String query = "SELECT * FROM customer WHERE name = ?";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-            stmt.setString(1,text);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Customer cstm = new Customer();
-                cstm.setId(rs.getInt("idcustomer"));
-                cstm.setName(rs.getString("name"));
-                cstm.setSurname(rs.getString("surname"));
-                cstm.setNumberOfTickets(rs.getInt("numberOfTickets"));
-                customers.add(cstm);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return customers;
-    }
-
-    @Override
-    public List<Customer> searchBySurname(String text) {
-        List<Customer> customers = new ArrayList<>();
-        String query = "SELECT * FROM customer WHERE surname = ?";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-            stmt.setString(1,text);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Customer cstm = new Customer();
-                cstm.setId(rs.getInt("idcustomer"));
-                cstm.setName(rs.getString("name"));
-                cstm.setSurname(rs.getString("surname"));
-                cstm.setNumberOfTickets(rs.getInt("numberOfTickets"));
-                customers.add(cstm);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return customers;
-    }
-
-    @Override
-    public Customer getById(int id) {
-        String query = "SELECT * FROM customer WHERE idcustomer = ?";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-            stmt.setInt(1,id);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                Customer customer = new Customer();
-                customer.setId(rs.getInt("idcustomer"));
-                customer.setName(rs.getString("name"));
-                customer.setSurname(rs.getString("surname"));
-                customer.setNumberOfTickets(rs.getInt("numberOfTickets"));
-                rs.close();
-                return customer;
-            }
-            else {
-                return null;  // no customers in the result set
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); // or "throw new RuntimeException(e)"
-        }
-        return null;
+        super("customer");
     }
 
     /**
-     * Method that returns next id, used for inserting into database
-     * @return id for next entity
+     *
+     * @param text name of the searched customer
+     * @return list of customers
+     * @throws TicketException
      */
-    private int getMaxId(){
-        int id = 1;
+    @Override
+    public List<Customer> searchByName(String text) throws TicketException{
+        ArrayList<Customer> customers = new ArrayList<>();
+        String query = "SELECT * FROM customer WHERE name LIKE concat('%', ?, '%')";
         try {
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT MAX(idcustomer)+1 FROM customer");
+            PreparedStatement stmt = getConnection().prepareStatement(query);
+            stmt.setString(1,text);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                id = rs.getInt(1);
-                rs.close();
-                return id;
-            }
-        }catch (SQLException e){
-            System.out.println("Database problem");
-            System.out.println(e.getMessage());
-        }
-        return id;
-    }
-
-    @Override
-    public Customer add(Customer item) {
-        int idcustomer = getMaxId();
-        String insert = "INSERT INTO customer VALUES (?, ?, ?, ?)";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(insert);
-            stmt.setInt(1,idcustomer);
-            stmt.setString(2, item.getName());
-            stmt.setString(3, item.getSurname());
-            stmt.setInt(4, item.getNumberOfTickets());
-            stmt.executeUpdate();
-            item.setId(idcustomer);
-            return item;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public Customer update(Customer item) {
-        String update = "UPDATE customer SET name = ?, surname = ?, numberOfTickets = ? WHERE idcustomer = ?";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(update);
-            stmt.setString(1, item.getName());
-            stmt.setString(2, item.getSurname());
-            stmt.setInt(3, item.getNumberOfTickets());
-            stmt.setInt(4, item.getId());
-            stmt.executeUpdate();
-            return item;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public void delete(int id) {
-        String delete = "DELETE FROM customer WHERE idcustomer = ?";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(delete);
-            stmt.setInt(1,id);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public List<Customer> getAll() {
-        List<Customer> customers = new ArrayList<>();
-        String query = "SELECT * FROM customer";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                Customer cstm = new Customer();
-                cstm.setId(rs.getInt("idcustomer"));
-                cstm.setName(rs.getString("name"));
-                cstm.setSurname(rs.getString("surname"));
-                cstm.setNumberOfTickets(rs.getInt("numberOfTickets"));
-                customers.add(cstm);
+            while (rs.next()){
+                customers.add(row2object(rs));
             }
             rs.close();
         } catch (SQLException e) {
@@ -180,4 +43,49 @@ public class CustomerDaoSQLImpl implements CustomerDao{
         }
         return customers;
     }
+
+    @Override
+    public List<Customer> searchBySurname(String text) throws TicketException{
+        List<Customer> customers = new ArrayList<>();
+        String query = "SELECT * FROM customer WHERE surname LIKE concat('%', ?, '%')";
+        try {
+            PreparedStatement stmt = getConnection().prepareStatement(query);
+            stmt.setString(1,text);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                customers.add(row2object(rs));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            throw new TicketException(e.getMessage(), e);
+        }
+        return customers;
+    }
+
+    @Override
+    public Customer row2object(ResultSet rs) throws TicketException {
+        try{
+            Customer cust = new Customer();
+            cust.setId(rs.getInt("id"));
+            cust.setName(rs.getString("name"));
+            cust.setSurname(rs.getString("surname"));
+            cust.setNumberOfTickets(rs.getInt("numberOfTickets"));
+
+            return cust;
+        } catch (SQLException e){
+            throw new TicketException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public Map<String, Object> object2row(Customer object) {
+        Map<String, Object> row = new TreeMap<String, Object>();
+        row.put("id", object.getId());
+        row.put("name", object.getName());
+        row.put("surname", object.getSurname());
+        row.put("numberOfTickets", object.getNumberOfTickets());
+        return row;
+    }
+
+
 }
