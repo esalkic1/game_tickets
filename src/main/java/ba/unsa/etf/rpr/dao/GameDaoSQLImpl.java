@@ -2,182 +2,79 @@ package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.Customer;
 import ba.unsa.etf.rpr.domain.Game;
+import ba.unsa.etf.rpr.exceptions.TicketException;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.List;
 
-public class GameDaoSQLImpl implements GameDao{
 
-    private Connection connection = null;
+public class GameDaoSQLImpl extends AbstractDao<Game> implements GameDao{
 
     public GameDaoSQLImpl() {
-        try {
-            this.connection = DriverManager.getConnection("jdbc:mysql://sql.freedb.tech:3306/freedb_RPRprojekat", "freedb_esalkic1", "?RHx$54HQjTFABG");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        super("game");
     }
 
     @Override
-    public Game getById(int id) {
-        String query = "SELECT * FROM game WHERE idgame = ?";
+    public Game row2object(ResultSet rs) throws TicketException {
         try {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-            stmt.setInt(1,id);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                Game game = new Game();
-                game.setId(rs.getInt("idgame"));
-                game.setCapacity(rs.getInt("capacity"));
-                game.setSold(rs.getInt("sold"));
-                game.setOpponent(rs.getString("opponent"));
-                game.setDate(rs.getDate("date"));
-                rs.close();
-                return game;
-            }
-            else {
-                return null;  // no games in the result set
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); // or "throw new RuntimeException(e)"
-        }
-        return null;
-    }
-
-    /**
-     * Method that returns next id, used for inserting into database
-     * @return id for next entity
-     */
-    private int getMaxId(){
-        int id = 1;
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement("SELECT MAX(idgame)+1 FROM game");
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                id = rs.getInt(1);
-                rs.close();
-                return id;
-            }
+            Game game = new Game();
+            game.setId(rs.getInt("id"));
+            game.setCapacity(rs.getInt("capacity"));
+            game.setSold(rs.getInt("sold"));
+            game.setOpponent(rs.getString("opponent"));
+            game.setDate(rs.getDate("date"));
+            return game;
         }catch (SQLException e){
-            System.out.println("Database problem");
-            System.out.println(e.getMessage());
-        }
-        return id;
-    }
-
-    @Override
-    public Game add(Game item) {
-        int idgame = getMaxId();
-        String insert = "INSERT INTO game VALUES (idgame, item.getCapacity(), item.getSold(), item.getOpponent(), item.getDate())";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(insert);
-            stmt.executeUpdate();
-            item.setId(idgame);
-            return item;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public Game update(Game item) {
-        String update = "UPDATE game SET capacity = ?, sold = ?, opponent = ?, date = ? WHERE idgame = ?";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(update);
-            stmt.setInt(1, item.getCapacity());
-            stmt.setInt(2, item.getSold());
-            stmt.setString(3, item.getOpponent());
-            stmt.setDate(4, (java.sql.Date) item.getDate());
-            stmt.executeUpdate();
-            return item;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public void delete(int id) {
-        String delete = "DELETE FROM game WHERE idgame = ?";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(delete);
-            stmt.setInt(1,id);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            throw new TicketException(e.getMessage(), e);
         }
     }
 
     @Override
-    public List<Game> getAll() {
+    public Map<String, Object> object2row(Game object) {
+        Map<String, Object> item = new TreeMap<String, Object>();
+        item.put("id", object.getId());
+        item.put("capacity", object.getCapacity());
+        item.put("sold", object.getSold());
+        item.put("opponent", object.getOpponent());
+        item.put("date", object.getDate());
+        return item;
+    }
+
+    @Override
+    public List<Game> searchByOpponent(String text) throws TicketException{
         List<Game> games = new ArrayList<>();
-        String query = "SELECT * FROM game";
+        String query = "SELECT * FROM game WHERE opponent LIKE concat('%', ?, '%')";
         try {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                Game game = new Game();
-                game.setId(rs.getInt("idgame"));
-                game.setCapacity(rs.getInt("capacity"));
-                game.setSold(rs.getInt("sold"));
-                game.setOpponent(rs.getString("opponent"));
-                game.setDate(rs.getDate("date"));
-                games.add(game);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return games;
-    }
-
-    @Override
-    public List<Game> searchByOpponent(String text) {
-        List<Game> games = new ArrayList<>();
-        String query = "SELECT * FROM game WHERE opponent = ?";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
+            PreparedStatement stmt = getConnection().prepareStatement(query);
             stmt.setString(1,text);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
-                Game game = new Game();
-                game.setId(rs.getInt("idgame"));
-                game.setCapacity(rs.getInt("capacity"));
-                game.setSold(rs.getInt("sold"));
-                game.setOpponent(rs.getString("opponent"));
-                game.setDate(rs.getDate("date"));
-                games.add(game);
+                games.add(row2object(rs));
             }
             rs.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new TicketException(e.getMessage(), e);
         }
         return games;
     }
 
     @Override
-    public List<Game> getByDateRange(Date start, Date end) {
+    public List<Game> getByDateRange(Date start, Date end) throws TicketException{
         List<Game> games = new ArrayList<>();
-        String query = "SELECT * FROM game WHERE date BETWEEN start AND end";
+        String query = "SELECT * FROM game WHERE date BETWEEN ? AND ?";
         try {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
+            PreparedStatement stmt = getConnection().prepareStatement(query);
+            stmt.setObject(1, start);
+            stmt.setObject(2, end);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
-                Game game = new Game();
-                game.setId(rs.getInt("idgame"));
-                game.setCapacity(rs.getInt("capacity"));
-                game.setSold(rs.getInt("sold"));
-                game.setOpponent(rs.getString("opponent"));
-                game.setDate(rs.getDate("date"));
-                games.add(game);
+                games.add(row2object(rs));
             }
             rs.close();
+            return games;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new TicketException(e.getMessage(), e);
         }
-        return games;
     }
 }
