@@ -2,7 +2,10 @@ package ba.unsa.etf.rpr;
 
 import ba.unsa.etf.rpr.dao.CustomerDao;
 import ba.unsa.etf.rpr.dao.CustomerDaoSQLImpl;
+import ba.unsa.etf.rpr.dao.DaoFactory;
 import ba.unsa.etf.rpr.domain.Customer;
+import ba.unsa.etf.rpr.domain.Ticket;
+import ba.unsa.etf.rpr.exceptions.TicketException;
 
 /**
  * Hello world!
@@ -14,11 +17,16 @@ public class App
     {
         CustomerDao dao = new CustomerDaoSQLImpl();
         Customer cstm = new Customer();
-        cstm.setName("Ime");
-        cstm.setSurname("Prezime");
-        cstm.setNumberOfTickets(7);
-        dao.add(cstm);
+        cstm.setName("Student");
+        cstm.setSurname("Studentic");
+        cstm.setNumberOfTickets(4);
+        try {
+            dao.add(cstm);
         //System.out.println(dao.getById(2));
-        System.out.println(dao.getAll());
+            //dao.delete(5);
+            System.out.println(dao.getAll());
+        } catch (TicketException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
