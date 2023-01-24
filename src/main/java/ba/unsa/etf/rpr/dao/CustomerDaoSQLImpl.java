@@ -70,7 +70,9 @@ public class CustomerDaoSQLImpl extends AbstractDao<Customer> implements Custome
             cust.setName(rs.getString("name"));
             cust.setSurname(rs.getString("surname"));
             cust.setNumberOfTickets(rs.getInt("numberOfTickets"));
-
+            cust.setPassword(rs.getString("password"));
+            cust.setUsername(rs.getString("username"));
+            cust.setIsAdmin(rs.getInt("isAdmin"));
             return cust;
         } catch (SQLException e){
             throw new TicketException(e.getMessage(), e);
@@ -84,6 +86,9 @@ public class CustomerDaoSQLImpl extends AbstractDao<Customer> implements Custome
         row.put("name", object.getName());
         row.put("surname", object.getSurname());
         row.put("numberOfTickets", object.getNumberOfTickets());
+        row.put("password", object.getPassword());
+        row.put("username", object.getUsername());
+        row.put("isAdmin", object.getIsAdmin());
         return row;
     }
 
