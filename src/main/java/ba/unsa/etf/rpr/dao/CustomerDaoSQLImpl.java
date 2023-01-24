@@ -63,6 +63,23 @@ public class CustomerDaoSQLImpl extends AbstractDao<Customer> implements Custome
     }
 
     @Override
+    public Customer searchByUsername(String text){
+        List<Customer> customers = null;
+        try {
+            customers = this.getAll();
+        } catch (TicketException e) {
+            throw new RuntimeException(e);
+        }
+        for(Customer cust : customers){
+            if (cust.getUsername().equals(text))
+                return cust;
+        }
+        return null;
+    }
+
+
+
+    @Override
     public Customer row2object(ResultSet rs) throws TicketException {
         try{
             Customer cust = new Customer();
