@@ -1,0 +1,28 @@
+.root{
+-fx-background-color: #18488f;
+}
+
+.label{
+-fx-font-family: "Georgia";
+-fx-text-fill: white;
+-fx-font-size: 20px;
+-fx-letter-spacing: 6px;
+-fx-text-align: left;
+}
+
+
+#btnLogin{
+-fx-font-family: "Georgia";
+-fx-text-fill: white;
+-fx-background-color: #1877f2;
+-fx-font-size: 20px;
+}
+
+#GpTop{
+-fx-background-color: #134184;
+}
+
+.separator {
+-fx-border-style: solid;
+-fx-border-width: 1px;
+}
