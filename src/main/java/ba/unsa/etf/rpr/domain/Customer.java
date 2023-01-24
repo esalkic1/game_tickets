@@ -12,10 +12,9 @@ public class Customer implements Idable{
     private String name;
     private String surname;
     private int numberOfTickets;
-
     private String password;
-
     private String username;
+    private int isAdmin;
 
     public String getPassword() {
         return password;
@@ -31,6 +30,14 @@ public class Customer implements Idable{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public int getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(int isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public int getId() {
@@ -70,12 +77,12 @@ public class Customer implements Idable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return id == customer.id && numberOfTickets == customer.numberOfTickets && Objects.equals(name, customer.name) && Objects.equals(surname, customer.surname) && password.equals(customer.password) && username.equals(customer.username);
+        return id == customer.id && numberOfTickets == customer.numberOfTickets && isAdmin == customer.isAdmin && Objects.equals(name, customer.name) && Objects.equals(surname, customer.surname) && password.equals(customer.password) && username.equals(customer.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, numberOfTickets, password, username);
+        return Objects.hash(id, name, surname, numberOfTickets, password, username, isAdmin);
     }
 
     @Override
@@ -87,6 +94,7 @@ public class Customer implements Idable{
                 ", numberOfTickets=" + numberOfTickets +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
+                ", isAdmin=" + isAdmin +
                 '}';
     }
 }
