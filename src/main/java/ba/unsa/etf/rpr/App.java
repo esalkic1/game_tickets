@@ -21,7 +21,7 @@ public class App
         cstm.setSurname("Studentic");
         cstm.setNumberOfTickets(4);
         try {
-            dao.add(cstm);
+            //dao.add(cstm);
         //System.out.println(dao.getById(2));
             //dao.delete(5);
             System.out.println(dao.getAll());
