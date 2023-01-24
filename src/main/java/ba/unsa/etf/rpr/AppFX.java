@@ -14,7 +14,7 @@ public class AppFX extends Application {
     public void start(Stage stage) throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(AppFX.class.getResource("/fxml/home.fxml"));
         Scene scene = new Scene(fxmlLoader.load(),  USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        stage.setTitle("Hello!");
+        stage.setTitle("Fk Željezničar ulaznice");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
