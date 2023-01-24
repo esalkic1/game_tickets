@@ -18,6 +18,13 @@
 -fx-font-size: 20px;
 }
 
+#btnRegister{
+-fx-font-family: "Georgia";
+-fx-text-fill: white;
+-fx-background-color: #1877f2;
+-fx-font-size: 20px;
+}
+
 #GpTop{
 -fx-background-color: #134184;
 }

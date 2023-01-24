@@ -80,10 +80,10 @@
       </GridPane>
       <Button fx:id="btnRegister" mnemonicParsing="false" text="Registruj se" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
          <GridPane.margin>
-            <Insets bottom="20.0" left="20.0" right="10.0" />
+            <Insets bottom="20.0" left="30.0" right="10.0" />
          </GridPane.margin>
          <padding>
-            <Insets bottom="8.0" left="50.0" right="50.0" top="8.0" />
+            <Insets bottom="8.0" left="20.0" right="25.0" top="8.0" />
          </padding>
       </Button>
       <Label text="Nemaš profil?" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
