@@ -20,8 +20,11 @@ public class App
         cstm.setName("Student");
         cstm.setSurname("Studentic");
         cstm.setNumberOfTickets(4);
+        cstm.setPassword("safepassword");
+        cstm.setUsername("Emir1921");
+        cstm.setIsAdmin(0);
         try {
-            //dao.add(cstm);
+            dao.add(cstm);
         //System.out.println(dao.getById(2));
             //dao.delete(5);
             System.out.println(dao.getAll());
