@@ -12,3 +12,27 @@
 -fx-background-color: #1877f2;
 -fx-font-size: 15px;
 }
+
+#btnRegister{
+-fx-font-family: "Georgia";
+-fx-text-fill: white;
+-fx-background-color: #1877f2;
+-fx-font-size: 15px;
+}
+
+#lbError{
+-fx-text-fill: lightpink;
+}
+
+#lbHighlighted1, #lbHighlighted2, #lbHighlighted3{
+-fx-text-fill: red;
+-fx-font-size: 15px;
+}
+
+.label{
+-fx-font-family: "Georgia";
+-fx-text-fill: white;
+-fx-font-size: 20px;
+-fx-letter-spacing: 6px;
+-fx-text-align: left;
+}
