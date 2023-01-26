@@ -106,6 +106,14 @@ public class RegisterController {
 
 
     public void btnGoBackClick(ActionEvent actionEvent) throws IOException {
+        Node node = (Node) actionEvent.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(),  USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        thisStage.setTitle("Fk Željezničar ulaznice");
+        thisStage.setScene(scene);
+        thisStage.setResizable(false);
+        thisStage.show();
     }
 
     public void btnRegisterClick(ActionEvent actionEvent) {
