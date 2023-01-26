@@ -1,15 +1,16 @@
 package ba.unsa.etf.rpr.controllers;
 
+import ba.unsa.etf.rpr.dao.Dao;
+import ba.unsa.etf.rpr.dao.DaoFactory;
+import ba.unsa.etf.rpr.domain.Customer;
+import ba.unsa.etf.rpr.exceptions.TicketException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -117,6 +118,49 @@ public class RegisterController {
     }
 
     public void btnRegisterClick(ActionEvent actionEvent) {
+        if(lbError.isVisible()) return;
 
+        Customer customer = DaoFactory.customerDao().searchByUsername(tfUsername.getText());
+        if(customer != null){
+            Alert existingUsername = new Alert(Alert.AlertType.ERROR);
+            existingUsername.setTitle("Error");
+            existingUsername.setHeaderText("Uneseno korisničko ime se već koristi!");
+            existingUsername.setContentText("Pokušajte ponovo");
+            existingUsername.showAndWait();
+            return;
+        }
+
+        String password = tfPassword.getText();
+        boolean containsNumber = false;
+        for(int i = 0; i< password.length(); i++){
+            if(Character.isDigit(password.charAt(i))) containsNumber = true;
+        }
+        if(!containsNumber){
+            Alert noNumber = new Alert(Alert.AlertType.ERROR);
+            noNumber.setTitle("Error");
+            noNumber.setHeaderText("Šifra mora sadržati broj!");
+            noNumber.setContentText("Pokušajte ponovo");
+            noNumber.showAndWait();
+            return;
+        }
+
+        Customer newcustomer = new Customer();
+        newcustomer.setName(tfName.getText());
+        newcustomer.setSurname(tfSurname.getText());
+        newcustomer.setNumberOfTickets(0);
+        newcustomer.setPassword(tfPassword.getText());
+        newcustomer.setUsername(tfUsername.getText());
+        newcustomer.setIsAdmin(0);
+
+        try {
+            DaoFactory.customerDao().add(newcustomer);
+            Alert registered = new Alert(Alert.AlertType.ERROR);
+            registered.setTitle("Dobrodošli");
+            registered.setHeaderText("Uspješno ste registrovani!");
+            registered.setContentText("Mi smo Željini, Željo je naš");
+            registered.showAndWait();
+        } catch (TicketException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
