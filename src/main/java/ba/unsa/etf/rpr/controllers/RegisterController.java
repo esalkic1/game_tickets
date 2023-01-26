@@ -132,15 +132,27 @@ public class RegisterController {
 
         String password = tfPassword.getText();
         boolean containsNumber = false;
-        for(int i = 0; i< password.length(); i++){
+        for(int i = 0; i < password.length(); i++){
             if(Character.isDigit(password.charAt(i))) containsNumber = true;
         }
         if(!containsNumber){
             Alert noNumber = new Alert(Alert.AlertType.ERROR);
             noNumber.setTitle("Error");
-            noNumber.setHeaderText("Šifra mora sadržati broj!");
+            noNumber.setHeaderText("Šifra mora sadržavati broj!");
             noNumber.setContentText("Pokušajte ponovo");
             noNumber.showAndWait();
+            return;
+        }
+        boolean containsUpperCase = false;
+        for(int i = 0; i < password.length(); i++){
+            if(Character.isUpperCase(password.charAt(i))) containsUpperCase = true;
+        }
+        if(!containsUpperCase){
+            Alert noUpperCase = new Alert(Alert.AlertType.ERROR);
+            noUpperCase.setTitle("Error");
+            noUpperCase.setHeaderText("Šifra mora sadržavati veliko slovo!");
+            noUpperCase.setContentText("Pokušajte ponovo");
+            noUpperCase.showAndWait();
             return;
         }
 
