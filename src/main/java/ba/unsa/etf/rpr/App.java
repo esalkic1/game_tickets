@@ -17,17 +17,21 @@ public class App
     {
         CustomerDao dao = new CustomerDaoSQLImpl();
         Customer cstm = new Customer();
-        cstm.setName("Student");
-        cstm.setSurname("Studentic");
-        cstm.setNumberOfTickets(4);
-        cstm.setPassword("safepassword");
+        cstm.setName("Emir");
+        cstm.setSurname("Salkić");
+        cstm.setNumberOfTickets(0);
+        cstm.setPassword("Rprprojekat23");
         cstm.setUsername("Emir1921");
-        cstm.setIsAdmin(0);
+        cstm.setIsAdmin(1);
         try {
             dao.add(cstm);
+            Customer customer = DaoFactory.customerDao().searchByUsername("Emir1921");
+            System.out.println(customer.getName());
         //System.out.println(dao.getById(2));
-            //dao.delete(5);
-            System.out.println(dao.getAll());
+            //dao.delete(7);
+            //dao.delete(8);
+            //dao.delete(9);
+            //System.out.println(dao.getAll());
         } catch (TicketException e) {
             throw new RuntimeException(e);
         }
