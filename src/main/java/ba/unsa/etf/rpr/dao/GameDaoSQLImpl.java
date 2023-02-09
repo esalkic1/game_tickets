@@ -24,6 +24,7 @@ public class GameDaoSQLImpl extends AbstractDao<Game> implements GameDao{
             game.setSold(rs.getInt("sold"));
             game.setOpponent(rs.getString("opponent"));
             game.setDate(rs.getDate("date"));
+            game.setCompetition(rs.getString("competition"));
             return game;
         }catch (SQLException e){
             throw new TicketException(e.getMessage(), e);
@@ -38,6 +39,7 @@ public class GameDaoSQLImpl extends AbstractDao<Game> implements GameDao{
         item.put("sold", object.getSold());
         item.put("opponent", object.getOpponent());
         item.put("date", object.getDate());
+        item.put("competition", object.getCompetition());
         return item;
     }
 
