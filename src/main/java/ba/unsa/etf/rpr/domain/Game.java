@@ -14,6 +14,8 @@ public class Game implements Idable{
     private String opponent;
     private Date date;
 
+    private String competition;
+
     public int getId() {
         return id;
     }
@@ -53,6 +55,10 @@ public class Game implements Idable{
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public String getCompetition(){return competition; }
+
+    public void setCompetition(String competition) { this.competition = competition; }
 
     @Override
     public boolean equals(Object o) {
