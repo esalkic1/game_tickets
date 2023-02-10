@@ -40,7 +40,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" />
+                  <ChoiceBox fx:id="cbCompetition" prefWidth="150.0" GridPane.columnIndex="1" />
                   <Label text="Protivnik: " GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
