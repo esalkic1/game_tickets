@@ -97,13 +97,24 @@ public class HomeController {
             Node node = (Node) actionEvent.getSource();
             Stage thisStage = (Stage) node.getScene().getWindow();
             Stage newStage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/UserMain.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(),  USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-            newStage.setTitle("Fk Željezničar ulaznice");
-            newStage.setScene(scene);
-            newStage.setResizable(false);
-            newStage.show();
-            thisStage.close();
+            if(customer.getIsAdmin()!=1) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/UserMain.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+                newStage.setTitle("Fk Željezničar ulaznice");
+                newStage.setScene(scene);
+                newStage.setResizable(false);
+                newStage.show();
+                thisStage.close();
+            }
+            else{
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminEdit.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+                newStage.setTitle("Fk Željezničar ulaznice");
+                newStage.setScene(scene);
+                newStage.setResizable(false);
+                newStage.show();
+                thisStage.close();
+            }
 
     }
 
