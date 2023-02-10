@@ -4,13 +4,23 @@ import ba.unsa.etf.rpr.business.GameManager;
 import ba.unsa.etf.rpr.domain.Customer;
 import ba.unsa.etf.rpr.domain.Game;
 import ba.unsa.etf.rpr.exceptions.TicketException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
+
+import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class UserMainController {
 
@@ -38,5 +48,16 @@ public class UserMainController {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public void BuyTicketBtnClick(ActionEvent actionEvent) throws IOException {
+        Node node = (Node) actionEvent.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/PurchaseConfirm.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(),  USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        thisStage.setTitle("Fk Željezničar ulaznice");
+        thisStage.setScene(scene);
+        thisStage.setResizable(false);
+        thisStage.show();
     }
 }
