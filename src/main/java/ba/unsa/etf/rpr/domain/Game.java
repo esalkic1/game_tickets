@@ -75,13 +75,10 @@ public class Game implements Idable{
 
     @Override
     public String toString() {
-        return "Game{" +
-                "id=" + id +
-                ", capacity=" + capacity +
-                ", sold=" + sold +
-                ", opponent='" + opponent + '\'' +
-                ", date=" + date +
-                ", competition='" + competition + '\'' +
+        return "{"+
+                "protivnik='" + opponent + '\'' +
+                ", datum=" + date +
+                ", takmičenje='" + competition + '\'' +
                 '}';
     }
 }
