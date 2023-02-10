@@ -15,7 +15,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnBuyTicket" mnemonicParsing="false" prefWidth="220.0" text="Kupi ulaznicu">
+            <Button fx:id="btnBuyTicket" mnemonicParsing="false" onAction="#BuyTicketBtnClick" prefWidth="220.0" text="Kupi ulaznicu">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
@@ -37,8 +37,17 @@
           <TableColumn fx:id="columnCompetition" prefWidth="75.0" text="Takmičenje" />
           <TableColumn fx:id="columnOpponent" prefWidth="75.0" text="Protivnik" />
             <TableColumn fx:id="columnDate" prefWidth="75.0" text="Datum" />
-            <TableColumn fx:id="columnSelling" prefWidth="75.0" text="U prodaji" />
+            <TableColumn fx:id="columnSelling" prefWidth="75.0" text="Prodato" />
         </columns>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
    </center>
 </BorderPane>
