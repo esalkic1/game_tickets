@@ -5,6 +5,7 @@ import ba.unsa.etf.rpr.domain.Game;
 import ba.unsa.etf.rpr.exceptions.TicketException;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.Date;
 
@@ -23,7 +24,7 @@ public class GameDaoSQLImpl extends AbstractDao<Game> implements GameDao{
             game.setCapacity(rs.getInt("capacity"));
             game.setSold(rs.getInt("sold"));
             game.setOpponent(rs.getString("opponent"));
-            game.setDate(rs.getDate("date"));
+            game.setDate(rs.getObject("date", LocalDate.class));
             game.setCompetition(rs.getString("competition"));
             return game;
         }catch (SQLException e){
