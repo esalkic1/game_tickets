@@ -102,7 +102,7 @@ public class HomeController {
                 Scene scene = new Scene(fxmlLoader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
                 newStage.setTitle("Fk Željezničar ulaznice");
                 newStage.setScene(scene);
-                newStage.setResizable(false);
+                newStage.setResizable(true);
                 newStage.show();
                 thisStage.close();
             }
