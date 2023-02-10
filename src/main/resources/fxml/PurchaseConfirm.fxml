@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+          xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.controllers.PurchaseConfirmController">
+   <stylesheets>
+      <URL value="@/CSS/purchaseConfirm.css" />
+   </stylesheets>
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="128.4" minHeight="0.0" prefHeight="51.4" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="266.8" minHeight="10.0" prefHeight="81.79999999999998" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="293.0" minHeight="10.0" prefHeight="82.80000000000001" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="293.0" minHeight="10.0" prefHeight="68.80000000000001" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="293.0" minHeight="10.0" prefHeight="63.19999999999999" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="287.40000000000003" minHeight="10.0" prefHeight="71.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label text="Unesite podatke sa kartice i potvrdite kupovinu" GridPane.columnSpan="3" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </GridPane.margin>
+      </Label>
+      <RadioButton mnemonicParsing="false" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <toggleGroup>
+            <ToggleGroup fx:id="tgCardType" />
+         </toggleGroup>
+         <graphic>
+            <ImageView fitHeight="31.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Visalogo.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </RadioButton>
+      <RadioButton mnemonicParsing="false" toggleGroup="$tgCardType" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+         <graphic>
+            <ImageView fitHeight="36.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Mastercard-logo.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </RadioButton>
+      <RadioButton mnemonicParsing="false" toggleGroup="$tgCardType" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/American_Express_logo.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </RadioButton>
+   </children>
+</GridPane>
