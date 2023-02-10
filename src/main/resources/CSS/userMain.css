@@ -8,3 +8,26 @@
 -fx-background-color: #1877f2;
 -fx-font-size: 15px;
 }
+
+.table-row-cell{
+    -fx-background-color: #1877f2;
+    -fx-font-family: "Georgia";
+    -fx-font-size: 15px;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: white;
+}
+
+.table-row-cell:selected{
+-fx-background-color: #1877f2;
+-fx-text-fill: black;
+}
+
+.wronginput{
+-fx-background-color:lightpink;
+}
+
+.correctinput{
+-fx-background-color:yellowgreen;
+}
