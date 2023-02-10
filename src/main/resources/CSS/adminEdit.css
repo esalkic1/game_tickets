@@ -1,1 +1,11 @@
+.root{
+-fx-background-color: #18488f;
+}
 
+.label{
+-fx-font-family: "Georgia";
+-fx-text-fill: white;
+-fx-font-size: 20px;
+-fx-letter-spacing: 6px;
+-fx-text-align: left;
+}
