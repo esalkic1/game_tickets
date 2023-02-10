@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr.domain;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -12,8 +13,7 @@ public class Game implements Idable{
     private int capacity;
     private int sold;
     private String opponent;
-    private Date date;
-
+    private LocalDate date;
     private String competition;
 
     public int getId() {
@@ -48,11 +48,11 @@ public class Game implements Idable{
         this.opponent = opponent;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -65,12 +65,12 @@ public class Game implements Idable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Game game = (Game) o;
-        return id == game.id && capacity == game.capacity && sold == game.sold && opponent.equals(game.opponent) && date.equals(game.date);
+        return id == game.id && capacity == game.capacity && sold == game.sold && opponent.equals(game.opponent) && date.equals(game.date) && competition.equals(game.competition);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, capacity, sold, opponent, date);
+        return Objects.hash(id, capacity, sold, opponent, date, competition);
     }
 
     @Override
@@ -81,6 +81,7 @@ public class Game implements Idable{
                 ", sold=" + sold +
                 ", opponent='" + opponent + '\'' +
                 ", date=" + date +
+                ", competition='" + competition + '\'' +
                 '}';
     }
 }
