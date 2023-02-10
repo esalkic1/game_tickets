@@ -9,3 +9,17 @@
 -fx-letter-spacing: 6px;
 -fx-text-align: left;
 }
+
+#btnDeleteGame{
+-fx-font-family: "Georgia";
+-fx-text-fill: white;
+-fx-background-color: #1877f2;
+-fx-font-size: 20px;
+}
+
+#btnAddGame{
+-fx-font-family: "Georgia";
+-fx-text-fill: white;
+-fx-background-color: #1877f2;
+-fx-font-size: 20px;
+}
