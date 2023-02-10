@@ -46,22 +46,22 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="tfOpponent" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="Datum: " GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <DatePicker fx:id="dpDate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="Kapacitet: " GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField text="12056" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="tfCapacity" text="12056" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
-            <Button fx:id="btnAddGame" mnemonicParsing="false" prefWidth="200.0" text="Dodaj utakmicu">
+            <Button fx:id="btnAddGame" mnemonicParsing="false" onAction="#AddGameBtnClick" prefWidth="200.0" text="Dodaj utakmicu">
                <VBox.margin>
                   <Insets bottom="20.0" left="50.0" right="20.0" top="60.0" />
                </VBox.margin>
@@ -80,8 +80,8 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <ListView prefHeight="300.0" prefWidth="200.0" />
-            <Button fx:id="btnDeleteGame" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="170.0" text="Obriši utakmicu">
+            <ListView fx:id="lvGames" prefHeight="300.0" prefWidth="200.0" />
+            <Button fx:id="btnDeleteGame" contentDisplay="CENTER" mnemonicParsing="false" onAction="#DeleteGameBtnClick" prefWidth="170.0" text="Obriši utakmicu">
                <VBox.margin>
                   <Insets bottom="20.0" left="70.0" top="20.0" />
                </VBox.margin>
