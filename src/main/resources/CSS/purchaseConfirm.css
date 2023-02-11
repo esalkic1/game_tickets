@@ -27,3 +27,10 @@
 #rbVisa{
 -fx-background-color: white;
 }
+
+#cbStand .label {
+-fx-background-color:  WHITE;
+-fx-text-fill: black;
+-fx-font-family: "Segoe UI";
+-fx-font-size: 13px;
+}
