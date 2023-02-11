@@ -9,6 +9,12 @@
 -fx-font-size: 15px;
 }
 
+#lbPrice{
+-fx-font-size: 30px;
+-fx-letter-spacing: 6px;
+-fx-text-align: left;
+}
+
 .label{
 -fx-font-family: "Georgia";
 -fx-text-fill: white;
