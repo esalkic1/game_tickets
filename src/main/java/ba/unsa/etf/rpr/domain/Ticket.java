@@ -8,8 +8,8 @@ import java.util.Objects;
  */
 public class Ticket implements Idable{
     private int id;
-    private Game game;
-    private Customer customer;
+    private int game;
+    private int customer;
     private int price;
     private String stand;
 
@@ -21,19 +21,19 @@ public class Ticket implements Idable{
         this.id = id;
     }
 
-    public Game getGame() {
+    public int getGame() {
         return game;
     }
 
-    public void setGame(Game game) {
+    public void setGame(int game) {
         this.game = game;
     }
 
-    public Customer getCustomer() {
+    public int getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(int customer) {
         this.customer = customer;
     }
 
@@ -58,7 +58,7 @@ public class Ticket implements Idable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return id == ticket.id && price == ticket.price && game.equals(ticket.game) && customer.equals(ticket.customer) && stand.equals(ticket.stand);
+        return id == ticket.id && price == ticket.price && game == ticket.game && customer == ticket.customer && stand.equals(ticket.stand);
     }
 
     @Override
