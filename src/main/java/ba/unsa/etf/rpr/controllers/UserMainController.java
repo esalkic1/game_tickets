@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -57,9 +58,18 @@ public class UserMainController {
     }
 
     public void BuyTicketBtnClick(ActionEvent actionEvent) throws IOException {
+        if(tvGamesList.getSelectionModel().getSelectedItem() == null){
+            Alert noSelection = new Alert(Alert.AlertType.ERROR);
+            noSelection.setTitle("Error");
+            noSelection.setHeaderText("Niste odabrali utakmicu!");
+            noSelection.setContentText("Odaberite utakmicu i pokušajte ponovo");
+            noSelection.showAndWait();
+            return;
+        }
         Node node = (Node) actionEvent.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/PurchaseConfirm.fxml"));
+        fxmlLoader.setController(new PurchaseConfirmController(customer, (Game)tvGamesList.getSelectionModel().getSelectedItem()));
         Scene scene = new Scene(fxmlLoader.load(),  USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         thisStage.setTitle("Fk Željezničar ulaznice");
         thisStage.setScene(scene);
