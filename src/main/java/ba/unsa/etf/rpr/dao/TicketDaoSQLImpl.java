@@ -47,8 +47,8 @@ public class TicketDaoSQLImpl extends AbstractDao<Ticket> implements TicketDao{
         try{
             Ticket ticket = new Ticket();
             ticket.setId(rs.getInt("id"));
-            ticket.setGame(DaoFactory.gameDao().getById(rs.getInt("game_id")));
-            ticket.setCustomer(DaoFactory.customerDao().getById(rs.getInt("customer_id")));
+            ticket.setGame(rs.getInt("game_id"));
+            ticket.setCustomer(rs.getInt("customer_id"));
             ticket.setPrice(rs.getInt("price"));
             ticket.setStand(rs.getString("stand"));
             return ticket;
