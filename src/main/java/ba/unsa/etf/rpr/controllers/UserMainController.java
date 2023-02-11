@@ -26,6 +26,7 @@ import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 public class UserMainController {
 
     public Button btnBuyTicket;
+    public Button btnEditProfile;
     public TableView tvGamesList;
     public TableColumn<Game, String> columnCompetition;
     public TableColumn<Game, String> columnOpponent;
@@ -75,5 +76,18 @@ public class UserMainController {
         thisStage.setScene(scene);
         thisStage.setResizable(false);
         thisStage.show();
+    }
+
+    public void EditProfileBtn(ActionEvent actionEvent) throws IOException {
+        //Node node = (Node) actionEvent.getSource();
+        //Stage thisStage = (Stage) node.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/EditProfile.fxml"));
+        fxmlLoader.setController(new EditProfileController(customer));
+        Scene scene = new Scene(fxmlLoader.load(),  USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        Stage newStage = new Stage();
+        newStage.setTitle("Fk Željezničar ulaznice");
+        newStage.setScene(scene);
+        newStage.setResizable(false);
+        newStage.show();
     }
 }
