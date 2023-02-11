@@ -12,6 +12,9 @@ public class EditProfileController {
     }
 
     public void EditCustomerBtnClick(ActionEvent actionEvent){
+    }
+
+    public void DeleteTicketBtnClick(ActionEvent actionEvent){
 
     }
 }
