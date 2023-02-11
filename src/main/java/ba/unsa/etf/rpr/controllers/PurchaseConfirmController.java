@@ -3,6 +3,7 @@ package ba.unsa.etf.rpr.controllers;
 import ba.unsa.etf.rpr.domain.Customer;
 import ba.unsa.etf.rpr.domain.Game;
 import ba.unsa.etf.rpr.exceptions.TicketException;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
@@ -25,24 +27,38 @@ public class PurchaseConfirmController {
     private Customer customer;
     private Game game;
 
-    private SimpleStringProperty label1;
+    private SimpleStringProperty labelOpponent;
+    private SimpleObjectProperty<LocalDate> labelDate;
 
-    public String getLabel1() {
-        return label1.get();
+    public LocalDate getLabelDate() {
+        return labelDate.get();
     }
 
-    public SimpleStringProperty label1Property() {
-        return label1;
+    public SimpleObjectProperty<LocalDate> labelDateProperty() {
+        return labelDate;
     }
 
-    public void setLabel1(String label1) {
-        this.label1.set(label1);
+    public void setLabelDate(LocalDate labelDate) {
+        this.labelDate.set(labelDate);
+    }
+
+    public String getLabelOpponent() {
+        return labelOpponent.get();
+    }
+
+    public SimpleStringProperty labelOpponentProperty() {
+        return labelOpponent;
+    }
+
+    public void setLabelOpponent(String labelOpponent) {
+        this.labelOpponent.set(labelOpponent);
     }
 
     public PurchaseConfirmController(Customer cust, Game game) {
         this.customer = cust;
         this.game = game;
-        label1 = new SimpleStringProperty(game.getOpponent());
+        labelOpponent = new SimpleStringProperty(game.getOpponent());
+        labelDate = new SimpleObjectProperty<LocalDate>(game.getDate());
         System.out.println(cust.getPassword());
         System.out.println(game.getOpponent());
     }
