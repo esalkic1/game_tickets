@@ -46,6 +46,12 @@ public class UserMainController {
         }
     }
 
+    //constructor
+    public UserMainController(Customer cust){
+        this.customer = cust;
+        System.out.println(customer.getName());
+    }
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
