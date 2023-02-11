@@ -9,6 +9,13 @@
 -fx-font-size: 15px;
 }
 
+#btnEditProfile{
+-fx-font-family: "Georgia";
+-fx-text-fill: white;
+-fx-background-color: #1877f2;
+-fx-font-size: 15px;
+}
+
 .table-row-cell{
     -fx-background-color: #1877f2;
     -fx-font-family: "Georgia";
