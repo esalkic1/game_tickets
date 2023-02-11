@@ -3,6 +3,7 @@ package ba.unsa.etf.rpr.controllers;
 import ba.unsa.etf.rpr.domain.Customer;
 import ba.unsa.etf.rpr.domain.Game;
 import ba.unsa.etf.rpr.exceptions.TicketException;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -24,9 +25,24 @@ public class PurchaseConfirmController {
     private Customer customer;
     private Game game;
 
+    private SimpleStringProperty label1;
+
+    public String getLabel1() {
+        return label1.get();
+    }
+
+    public SimpleStringProperty label1Property() {
+        return label1;
+    }
+
+    public void setLabel1(String label1) {
+        this.label1.set(label1);
+    }
+
     public PurchaseConfirmController(Customer cust, Game game) {
         this.customer = cust;
         this.game = game;
+        label1 = new SimpleStringProperty(game.getOpponent());
         System.out.println(cust.getPassword());
         System.out.println(game.getOpponent());
     }
