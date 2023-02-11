@@ -166,7 +166,7 @@ public class RegisterController {
 
         try {
             DaoFactory.customerDao().add(newcustomer);
-            Alert registered = new Alert(Alert.AlertType.ERROR);
+            Alert registered = new Alert(Alert.AlertType.NONE);
             registered.setTitle("Dobrodošli");
             registered.setHeaderText("Uspješno ste registrovani!");
             registered.setContentText("Mi smo Željini, Željo je naš");
