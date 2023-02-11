@@ -16,3 +16,14 @@
 -fx-letter-spacing: 6px;
 -fx-text-align: left;
 }
+
+#btnCancel{
+-fx-font-family: "Georgia";
+-fx-text-fill: white;
+-fx-background-color: #f50a60;
+-fx-font-size: 15px;
+}
+
+#rbVisa{
+-fx-background-color: white;
+}
