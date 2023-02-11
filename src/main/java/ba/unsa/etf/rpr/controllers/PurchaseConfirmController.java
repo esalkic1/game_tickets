@@ -1,7 +1,9 @@
 package ba.unsa.etf.rpr.controllers;
 
+import ba.unsa.etf.rpr.dao.DaoFactory;
 import ba.unsa.etf.rpr.domain.Customer;
 import ba.unsa.etf.rpr.domain.Game;
+import ba.unsa.etf.rpr.domain.Ticket;
 import ba.unsa.etf.rpr.exceptions.TicketException;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,8 +12,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,6 +30,8 @@ public class PurchaseConfirmController {
 
     private Customer customer;
     private Game game;
+
+    public Label lbPrice;
 
     private SimpleStringProperty labelOpponent;
     private SimpleObjectProperty<LocalDate> labelDate;
@@ -69,6 +75,63 @@ public class PurchaseConfirmController {
         cbStand.getItems().add("Sjever");
         cbStand.getItems().add("Zapad");
         cbStand.getItems().add("Zapad-VIP");
+        cbStand.getItems().add("Dječija");
+    }
+
+    /**
+     * Method that displays a different price based on the competition and the chosen stand
+     * @param actionEvent
+     */
+    public void StandChanged(ActionEvent actionEvent){
+        String stand = (String) cbStand.getSelectionModel().getSelectedItem();
+        if(game.getCompetition().equals("Premijer Liga BiH") || game.getCompetition().equals("Kup BiH")) {
+            switch (stand) {
+                case "Jug":
+                    lbPrice.setText("5 KM"); break;
+                case "Istok":
+                    lbPrice.setText("10 KM"); break;
+                case "Sjever":
+                    lbPrice.setText("8 KM"); break;
+                case "Zapad":
+                    lbPrice.setText("20 KM"); break;
+                case "Zapad-VIP":
+                    lbPrice.setText("30 KM"); break;
+                case "Dječija":
+                    lbPrice.setText("2 KM"); break;
+            }
+        }
+        else if(game.getCompetition().equals("Liga Prvaka") || game.getCompetition().equals("Europa Liga") || game.getCompetition().equals("Liga konferencija")) {
+            switch (stand) {
+                case "Jug":
+                    lbPrice.setText("10 KM"); break;
+                case "Istok":
+                    lbPrice.setText("20 KM"); break;
+                case "Sjever":
+                    lbPrice.setText("16 KM"); break;
+                case "Zapad":
+                    lbPrice.setText("40 KM"); break;
+                case "Zapad-VIP":
+                    lbPrice.setText("60 KM"); break;
+                case "Dječija":
+                    lbPrice.setText("5 KM"); break;
+            }
+        }
+        else if(game.getCompetition().equals("Prijateljska")){
+            switch (stand) {
+                case "Jug":
+                    lbPrice.setText("3 KM"); break;
+                case "Istok":
+                    lbPrice.setText("8 KM"); break;
+                case "Sjever":
+                    lbPrice.setText("6 KM"); break;
+                case "Zapad":
+                    lbPrice.setText("12 KM"); break;
+                case "Zapad-VIP":
+                    lbPrice.setText("20 KM"); break;
+                case "Dječija":
+                    lbPrice.setText("1 KM"); break;
+            }
+        }
     }
 
     public void CancelBtnClick(ActionEvent actionEvent) throws IOException {
@@ -84,5 +147,22 @@ public class PurchaseConfirmController {
     }
 
     public void ConfirmBtnClick(ActionEvent actionEvent) {
+        Ticket ticket = new Ticket();
+        ticket.setGame(game.getId());
+        ticket.setCustomer(customer.getId());
+        String price= lbPrice.getText();
+        String numberOnly = price.replaceAll("[^0-9]", "");
+        ticket.setPrice(Integer.parseInt(numberOnly));
+        ticket.setStand((String) cbStand.getSelectionModel().getSelectedItem());
+        try {
+            DaoFactory.ticketDao().add(ticket);
+            Alert bought = new Alert(Alert.AlertType.NONE);
+            bought.setTitle("Potvrda");
+            bought.setHeaderText("Uspješno ste kupili ulaznicu!");
+            bought.setContentText("Kupite još ulaznica za istu utakmicu ili se vratite na izbor druge!");
+            bought.showAndWait();
+        } catch (TicketException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
