@@ -109,7 +109,7 @@
                   <Insets bottom="3.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <ChoiceBox fx:id="cbStand" prefWidth="150.0">
+            <ChoiceBox fx:id="cbStand" onAction="#StandChanged" prefWidth="150.0">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -120,12 +120,12 @@
          <children>
             <Label text="Cijena: ">
                <VBox.margin>
-                  <Insets bottom="3.0" left="20.0" right="10.0" top="10.0" />
+                  <Insets bottom="3.0" left="20.0" right="10.0" top="20.0" />
                </VBox.margin>
             </Label>
-            <Label>
+            <Label fx:id="lbPrice">
                <VBox.margin>
-                  <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
+                  <Insets bottom="10.0" left="20.0" right="5.0" />
                </VBox.margin>
             </Label>
          </children>
