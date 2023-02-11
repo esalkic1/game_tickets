@@ -95,7 +95,7 @@
                   <Insets bottom="3.0" left="20.0" right="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <DatePicker>
+            <DatePicker editable="false">
                <VBox.margin>
                   <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -159,10 +159,11 @@
             <Insets bottom="5.0" left="80.0" top="5.0" />
          </GridPane.margin>
       </Label>
-      <Label text="${controller.label1}" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Label text="${controller.labelOpponent}" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin>
       </Label>
+      <Label text="${controller.labelDate}" GridPane.columnIndex="2" GridPane.rowIndex="1" />
    </children>
 </GridPane>
