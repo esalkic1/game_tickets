@@ -99,6 +99,7 @@ public class HomeController {
             Stage newStage = new Stage();
             if(customer.getIsAdmin()!=1) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/UserMain.fxml"));
+                fxmlLoader.setController(new UserMainController(customer));
                 Scene scene = new Scene(fxmlLoader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
                 newStage.setTitle("Fk Željezničar ulaznice");
                 newStage.setScene(scene);
