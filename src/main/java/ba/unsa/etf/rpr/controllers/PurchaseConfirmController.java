@@ -154,6 +154,7 @@ public class PurchaseConfirmController {
         String numberOnly = price.replaceAll("[^0-9]", "");
         ticket.setPrice(Integer.parseInt(numberOnly));
         ticket.setStand((String) cbStand.getSelectionModel().getSelectedItem());
+        customer.setNumberOfTickets(customer.getNumberOfTickets()+1);
         try {
             DaoFactory.ticketDao().add(ticket);
             Alert bought = new Alert(Alert.AlertType.NONE);
