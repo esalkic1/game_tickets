@@ -9,12 +9,11 @@ import ba.unsa.etf.rpr.domain.Game;
 import ba.unsa.etf.rpr.domain.Ticket;
 import ba.unsa.etf.rpr.exceptions.TicketException;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.util.List;
 
@@ -29,6 +28,12 @@ public class EditProfileController {
     public Button btnEditCustomer;
     public Button btnDeleteTicket;
     public ListView lvTickets;
+
+    public Label lbError;
+    public Label lbHighlighted4;
+    public Label lbHighlighted3;
+    public Label lbHighlighted2;
+    public Label lbHighlighted1;
 
     private CustomerManager customerManager = new CustomerManager();
 
@@ -51,13 +56,130 @@ public class EditProfileController {
         } catch (TicketException e) {
             throw new RuntimeException(e);
         }
+
+        lbHighlighted1.setVisible(false);
+        lbHighlighted2.setVisible(false);
+        lbHighlighted3.setVisible(false);
+        lbHighlighted4.setVisible(false);
+
+        tfName.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
+                if(tfName.getText().trim().isEmpty() || tfSurname.getText().trim().isEmpty()){
+                    lbHighlighted1.setVisible(true);
+                }
+                else {
+                    lbHighlighted1.setVisible(false);
+                }
+                if(tfName.getText().trim().isEmpty() || tfSurname.getText().trim().isEmpty() || tfUsername.getText().trim().isEmpty() || pfPassword.getText().trim().isEmpty()){
+                    lbError.setVisible(true);
+                } else {
+                    lbError.setVisible(false);
+                }
+            }
+        });
+        tfSurname.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
+                if(tfSurname.getText().trim().isEmpty() || tfName.getText().trim().isEmpty()){
+                    lbHighlighted2.setVisible(true);
+                }
+                else {
+                    lbHighlighted2.setVisible(false);
+                }
+                if(tfName.getText().trim().isEmpty() || tfSurname.getText().trim().isEmpty() || tfUsername.getText().trim().isEmpty() || pfPassword.getText().trim().isEmpty()){
+                    lbError.setVisible(true);
+                } else {
+                    lbError.setVisible(false);
+                }
+            }
+        });
+        tfUsername.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
+                if(tfUsername.getText().trim().isEmpty()){
+                    lbHighlighted3.setVisible(true);
+                }
+                else {
+                    lbHighlighted3.setVisible(false);
+                }
+                if(tfName.getText().trim().isEmpty() || tfSurname.getText().trim().isEmpty() || tfUsername.getText().trim().isEmpty() || pfPassword.getText().trim().isEmpty()){
+                    lbError.setVisible(true);
+                } else {
+                    lbError.setVisible(false);
+                }
+            }
+        });
+        pfPassword.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
+                if(pfPassword.getText().trim().isEmpty()){
+                    lbHighlighted4.setVisible(true);
+                }
+                else {
+                    lbHighlighted4.setVisible(false);
+                }
+                if(tfName.getText().trim().isEmpty() || tfSurname.getText().trim().isEmpty() || tfUsername.getText().trim().isEmpty() || pfPassword.getText().trim().isEmpty()){
+                    lbError.setVisible(true);
+                } else {
+                    lbError.setVisible(false);
+                }
+            }
+        });
+
+        if(tfName.getText().trim().isEmpty() || tfSurname.getText().trim().isEmpty() || tfUsername.getText().trim().isEmpty() || pfPassword.getText().trim().isEmpty()){
+            lbError.setVisible(true);
+        } else {
+            lbError.setVisible(false);
+        }
     }
 
     public void EditCustomerBtnClick(ActionEvent actionEvent){
-        Customer cust = model.toCustomer();
-        cust.setId(customer.getId());
+        if(lbError.isVisible()) return;
+
+        Customer cust = DaoFactory.customerDao().searchByUsername(tfUsername.getText());
+        if(cust != null && cust.getId()!=customer.getId()){
+            Alert existingUsername = new Alert(Alert.AlertType.ERROR);
+            existingUsername.setTitle("Error");
+            existingUsername.setHeaderText("Uneseno korisničko ime se već koristi!");
+            existingUsername.setContentText("Pokušajte ponovo");
+            existingUsername.showAndWait();
+            return;
+        }
+
+        String password = pfPassword.getText();
+        boolean containsNumber = false;
+        for(int i = 0; i < password.length(); i++){
+            if(Character.isDigit(password.charAt(i))) containsNumber = true;
+        }
+        if(!containsNumber){
+            Alert noNumber = new Alert(Alert.AlertType.ERROR);
+            noNumber.setTitle("Error");
+            noNumber.setHeaderText("Šifra mora sadržavati broj!");
+            noNumber.setContentText("Pokušajte ponovo");
+            noNumber.showAndWait();
+            return;
+        }
+        boolean containsUpperCase = false;
+        for(int i = 0; i < password.length(); i++){
+            if(Character.isUpperCase(password.charAt(i))) containsUpperCase = true;
+        }
+        if(!containsUpperCase){
+            Alert noUpperCase = new Alert(Alert.AlertType.ERROR);
+            noUpperCase.setTitle("Error");
+            noUpperCase.setHeaderText("Šifra mora sadržavati veliko slovo!");
+            noUpperCase.setContentText("Pokušajte ponovo");
+            noUpperCase.showAndWait();
+            return;
+        }
+        Customer cust1 = model.toCustomer();
+        cust1.setId(customer.getId());
         try {
-            customerManager.update(cust);
+            customerManager.update(cust1);
+            Alert bought = new Alert(Alert.AlertType.INFORMATION);
+            bought.setTitle("Potvrda");
+            bought.setHeaderText("Uspješno ste promijenili podatke!");
+            bought.showAndWait();
         } catch (TicketException e) {
             throw new RuntimeException(e);
         }
@@ -65,6 +187,14 @@ public class EditProfileController {
 
     public void DeleteTicketBtnClick(ActionEvent actionEvent){
         Ticket ticket = (Ticket) lvTickets.getSelectionModel().getSelectedItem();
+        if(ticket == null){
+            Alert noSelection = new Alert(Alert.AlertType.ERROR);
+            noSelection.setTitle("Error");
+            noSelection.setHeaderText("Nijedna karta nije odabrana!");
+            noSelection.setContentText("Odaberite utakmicu i pokušajte ponovo");
+            noSelection.showAndWait();
+            return;
+        }
         try {
             ticketManager.delete(ticket.getId());
             lvTickets.getItems().removeAll(lvTickets.getSelectionModel().getSelectedItem());
