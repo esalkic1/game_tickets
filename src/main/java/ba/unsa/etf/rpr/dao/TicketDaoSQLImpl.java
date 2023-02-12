@@ -17,11 +17,21 @@ import java.util.TreeMap;
 public class TicketDaoSQLImpl extends AbstractDao<Ticket> implements TicketDao{
 
 
-    public TicketDaoSQLImpl() {
+    private static TicketDaoSQLImpl instance = null;
+    private TicketDaoSQLImpl() {
        super("tickets");
     }
 
+    public static TicketDaoSQLImpl getInstance(){
+        if (instance == null)
+            instance = new TicketDaoSQLImpl();
+        return instance;
+    }
 
+    public static void removeInstance(){
+        if (instance!=null)
+            instance = null;
+    }
 
     @Override
     public List<Ticket> getByPriceRange(int min, int max) throws TicketException{
