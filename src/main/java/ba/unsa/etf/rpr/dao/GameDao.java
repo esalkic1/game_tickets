@@ -26,4 +26,14 @@ public interface GameDao extends Dao<Game>{
      * @return list of games
      */
     List<Game> getByDateRange(Date start, Date end) throws TicketException;
+
+    /**
+     * Finds games in the wanted competition
+     * @param text name of the searched competition
+     * @return list of games in the selected competition
+     * @throws TicketException
+     */
+    List<Game> searchByCompetition(String text) throws TicketException;
+
+    List<Game> searchByOpponentAndCompetition(String opp, String comp) throws TicketException;
 }
