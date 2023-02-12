@@ -6,7 +6,7 @@
 -fx-font-family: "Georgia";
 -fx-text-fill: white;
 -fx-background-color: #1877f2;
--fx-font-size: 15px;
+-fx-font-size: 25px;
 }
 
 #btnEditProfile{
@@ -16,21 +16,35 @@
 -fx-font-size: 15px;
 }
 
+#btnFilterList{
+-fx-font-family: "Georgia";
+-fx-text-fill: black;
+-fx-background-color: yellowgreen;
+-fx-font-size: 15px;
+}
+
+#btnRemoveFilters{
+-fx-font-family: "Georgia";
+-fx-text-fill: black;
+-fx-background-color: lightpink;
+-fx-font-size: 15px;
+}
+
 .table-row-cell{
--fx-background-color: #1877f2;
+-fx-background-color: white;
 -fx-font-family: "Georgia";
 -fx-font-size: 15px;
 -fx-text-fill: yellowgreen;
 }
 
 .table-row-cell:hover {
--fx-background-color: white;
--fx-text-fill: black;
+-fx-background-color: #25a3ff;
+-fx-text-fill: white;
 }
 
 .table-row-cell:selected{
 -fx-background-color: #1877f2;
--fx-text-fill: black;
+-fx-text-fill: white;
 }
 
 .wronginput{
