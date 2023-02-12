@@ -17,15 +17,15 @@
 }
 
 .table-row-cell{
-    -fx-background-color: #1877f2;
-    -fx-font-family: "Georgia";
-    -fx-font-size: 15px;
-    -fx-text-fill: white;
+-fx-background-color: #1877f2;
+-fx-font-family: "Georgia";
+-fx-font-size: 15px;
+-fx-text-fill: yellowgreen;
 }
 
 .table-row-cell:hover {
-    -fx-background-color: white;
-    -fx-text-fill: black;
+-fx-background-color: white;
+-fx-text-fill: black;
 }
 
 .table-row-cell:selected{
