@@ -11,15 +11,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Date;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
@@ -27,6 +25,10 @@ public class UserMainController {
 
     public Button btnBuyTicket;
     public Button btnEditProfile;
+    public Button btnFilterList;
+    public Button btnRemoveFilters;
+    public TextField tfCompetition;
+    public TextField tfOpponent;
     public TableView tvGamesList;
     public TableColumn<Game, String> columnCompetition;
     public TableColumn<Game, String> columnOpponent;
@@ -100,5 +102,21 @@ public class UserMainController {
         newStage.setScene(scene);
         newStage.setResizable(false);
         newStage.show();
+    }
+
+    public void FilterListBtnClick(ActionEvent actionEvent){
+        try {
+            tvGamesList.setItems(FXCollections.observableList(manager.searchByOpponent(tfOpponent.getText())));
+        } catch (TicketException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void RemoveFiltersBtnClick(ActionEvent actionEvent){
+        try {
+            tvGamesList.setItems(FXCollections.observableList(manager.getAll()));
+        } catch (TicketException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
