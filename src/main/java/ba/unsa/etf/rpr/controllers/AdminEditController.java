@@ -1,11 +1,15 @@
 package ba.unsa.etf.rpr.controllers;
 
 import ba.unsa.etf.rpr.business.GameManager;
+import ba.unsa.etf.rpr.business.TicketManager;
 import ba.unsa.etf.rpr.domain.Game;
+import ba.unsa.etf.rpr.domain.Ticket;
 import ba.unsa.etf.rpr.exceptions.TicketException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+
+import java.util.List;
 
 public class AdminEditController {
     public ChoiceBox cbCompetition;
@@ -17,6 +21,7 @@ public class AdminEditController {
     public TextField tfOpponent;
 
     private GameManager manager = new GameManager();
+    private TicketManager ticketManager = new TicketManager();
 
     public void initialize(){
         cbCompetition.getItems().add("Premijer Liga BiH");
@@ -59,6 +64,8 @@ public class AdminEditController {
 
     public void DeleteGameBtnClick(ActionEvent actionEvent) {
         Game game = (Game) lvGames.getSelectionModel().getSelectedItem();
+
+
         if(game == null){
             Alert noSelection = new Alert(Alert.AlertType.ERROR);
             noSelection.setTitle("Error");
@@ -67,6 +74,22 @@ public class AdminEditController {
             noSelection.showAndWait();
             return;
         }
+
+        try {
+            List<Ticket> tickets = ticketManager.getAll();
+            for(Ticket tckt: tickets){
+                if (tckt.getGame() == game.getId());
+                Alert childExists = new Alert(Alert.AlertType.ERROR);
+                childExists.setTitle("Error");
+                childExists.setHeaderText("Ne možete obrisati utakmicu za koju postoje kupljene karte!");
+                childExists.setContentText("Odaberite drugu utakmicu i pokušajte ponovo");
+                childExists.showAndWait();
+                return;
+            }
+        } catch (TicketException e) {
+            throw new RuntimeException(e);
+        }
+
         try {
             manager.delete(game.getId());
             lvGames.getItems().removeAll(lvGames.getSelectionModel().getSelectedItem());
