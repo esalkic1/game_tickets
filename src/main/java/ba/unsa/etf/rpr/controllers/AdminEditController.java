@@ -51,6 +51,14 @@ public class AdminEditController {
 
     public void DeleteGameBtnClick(ActionEvent actionEvent) {
         Game game = (Game) lvGames.getSelectionModel().getSelectedItem();
+        if(game == null){
+            Alert noSelection = new Alert(Alert.AlertType.ERROR);
+            noSelection.setTitle("Error");
+            noSelection.setHeaderText("Nijedna utakmica nije odabrana!");
+            noSelection.setContentText("Odaberite utakmicu i pokušajte ponovo");
+            noSelection.showAndWait();
+            return;
+        }
         try {
             manager.delete(game.getId());
             lvGames.getItems().removeAll(lvGames.getSelectionModel().getSelectedItem());
