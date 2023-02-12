@@ -49,22 +49,17 @@ public class GameDaoSQLImpl extends AbstractDao<Game> implements GameDao{
         return executeQuery("SELECT * FROM game WHERE opponent LIKE concat('%', ?, '%')", new Object[]{text});
     }
 
+    public List<Game> searchByCompetition(String text) throws TicketException{
+        return executeQuery("SELECT * FROM game WHERE competition LIKE concat('%', ?, '%')", new Object[]{text});
+    }
+
+    public List<Game> searchByOpponentAndCompetition(String opp, String comp) throws TicketException{
+        return executeQuery("SELECT * FROM game WHERE opponent LIKE concat('%', ?, '%') AND competition LIKE concat('%', ?, '%')",
+                new Object[]{opp, comp});
+    }
+
     @Override
     public List<Game> getByDateRange(Date start, Date end) throws TicketException{
-        List<Game> games = new ArrayList<>();
-        String query = "SELECT * FROM game WHERE date BETWEEN ? AND ?";
-        try {
-            PreparedStatement stmt = getConnection().prepareStatement(query);
-            stmt.setObject(1, start);
-            stmt.setObject(2, end);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                games.add(row2object(rs));
-            }
-            rs.close();
-            return games;
-        } catch (SQLException e) {
-            throw new TicketException(e.getMessage(), e);
-        }
+        return executeQuery("SELECT * FROM game WHERE date BETWEEN ? AND ?", new Object[]{start, end});
     }
 }
