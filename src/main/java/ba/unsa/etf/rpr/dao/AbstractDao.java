@@ -141,6 +141,34 @@ public abstract class AbstractDao<T extends Idable> implements  Dao<T>{
         }
     }
 
+    public List<T> executeQuery(String query, Object[] params) throws TicketException{
+        try {
+            PreparedStatement stmt = getConnection().prepareStatement(query);
+            if (params != null){
+                for(int i = 1; i <= params.length; i++){
+                    stmt.setObject(i, params[i-1]);
+                }
+            }
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<T> resultList = new ArrayList<>();
+            while (rs.next()) {
+                resultList.add(row2object(rs));
+            }
+            return resultList;
+        } catch (SQLException e) {
+            throw new TicketException(e.getMessage(), e);
+        }
+    }
+
+    public T executeQueryUnique(String query, Object[] params) throws TicketException{
+        List<T> result = executeQuery(query, params);
+        if (result != null && result.size() == 1){
+            return result.get(0);
+        }else{
+            throw new TicketException("Object not found");
+        }
+    }
+
     private Map.Entry<String, String> prepareInsertParts(Map<String, Object> row){
         StringBuilder columns = new StringBuilder();
         StringBuilder questions = new StringBuilder();
