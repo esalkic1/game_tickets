@@ -17,21 +17,38 @@ public abstract class AbstractDao<T extends Idable> implements  Dao<T>{
     private String tableName;
 
     public AbstractDao(String tableName){
-        try {
-            this.tableName = tableName;
-            Properties p = new Properties();
-            p.load(ClassLoader.getSystemResource("database.properties").openStream());
-            String url = p.getProperty("db.connection_string");
-            String username = p.getProperty("db.username");
-            String password = p.getProperty("db.password");
-            this.connection = DriverManager.getConnection(url, username, password);
-        } catch (Exception e) {
-            e.printStackTrace();
+        this.tableName = tableName;
+        createConnection();
+    }
+
+    private static void createConnection(){
+        if(AbstractDao.connection==null) {
+            try {
+                Properties p = new Properties();
+                p.load(ClassLoader.getSystemResource("database.properties").openStream());
+                String url = p.getProperty("db.connection_string");
+                String username = p.getProperty("db.username");
+                String password = p.getProperty("db.password");
+                AbstractDao.connection = DriverManager.getConnection(url, username, password);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+                Runtime.getRuntime().addShutdownHook(new Thread(){
+                    @Override
+                    public void run(){
+                        try {
+                            connection.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
         }
     }
 
-    public Connection getConnection() {
-        return this.connection;
+    public static Connection getConnection() {
+        return AbstractDao.connection;
     }
 
     public abstract T row2object(ResultSet rs) throws TicketException;
@@ -39,39 +56,11 @@ public abstract class AbstractDao<T extends Idable> implements  Dao<T>{
     public abstract Map<String, Object> object2row(T object);
 
     public T getById(int id) throws TicketException{
-        String query = "SELECT * FROM "+this.tableName+" WHERE id = ?";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) { // result set is iterator.
-                T result = row2object(rs);
-                rs.close();
-                return result;
-            } else {
-                throw new TicketException("Object not found");
-            }
-        }
-        catch (SQLException e) {
-            throw new TicketException(e.getMessage(), e);
-        }
+        return executeQueryUnique("SELECT * FROM "+this.tableName+" WHERE id = ?", new Object[]{id});
     }
 
     public List<T> getAll() throws TicketException{
-        String query = "SELECT * FROM "+ tableName;
-        List<T> results = new ArrayList<T>();
-        try{
-            PreparedStatement stmt = getConnection().prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){ // result set is iterator.
-                T object = row2object(rs);
-                results.add(object);
-            }
-            rs.close();
-            return results;
-        }catch (SQLException e){
-            throw new TicketException(e.getMessage(), e);
-        }
+        return executeQuery("SELECT * FROM "+ tableName, null);
     }
 
     public void delete(int id) throws TicketException {
