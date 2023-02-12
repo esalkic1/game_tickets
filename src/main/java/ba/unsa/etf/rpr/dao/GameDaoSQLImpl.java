@@ -12,8 +12,20 @@ import java.util.Date;
 
 public class GameDaoSQLImpl extends AbstractDao<Game> implements GameDao{
 
-    public GameDaoSQLImpl() {
+    private static GameDaoSQLImpl instance = null;
+    private GameDaoSQLImpl() {
         super("game");
+    }
+
+    public static GameDaoSQLImpl getInstance(){
+        if (instance == null)
+            instance = new GameDaoSQLImpl();
+        return instance;
+    }
+
+    public static void removeInstance(){
+        if (instance!=null)
+            instance = null;
     }
 
     @Override
