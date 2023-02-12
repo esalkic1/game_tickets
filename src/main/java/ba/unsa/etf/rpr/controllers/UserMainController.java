@@ -105,10 +105,26 @@ public class UserMainController {
     }
 
     public void FilterListBtnClick(ActionEvent actionEvent){
-        try {
-            tvGamesList.setItems(FXCollections.observableList(manager.searchByOpponent(tfOpponent.getText())));
-        } catch (TicketException e) {
-            throw new RuntimeException(e);
+        if(!tfOpponent.getText().equals("") && !tfCompetition.getText().equals("")){
+            try {
+                tvGamesList.setItems(FXCollections.observableList(manager.searchByOpponentAndCompetition(tfOpponent.getText(), tfCompetition.getText())));
+            } catch (TicketException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else if(!tfOpponent.getText().equals("")) {
+            try {
+                tvGamesList.setItems(FXCollections.observableList(manager.searchByOpponent(tfOpponent.getText())));
+            } catch (TicketException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else if(!tfCompetition.getText().equals("")){
+            try {
+                tvGamesList.setItems(FXCollections.observableList(manager.searchByCompetition(tfCompetition.getText())));
+            } catch (TicketException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
