@@ -46,20 +46,7 @@ public class GameDaoSQLImpl extends AbstractDao<Game> implements GameDao{
 
     @Override
     public List<Game> searchByOpponent(String text) throws TicketException{
-        List<Game> games = new ArrayList<>();
-        String query = "SELECT * FROM game WHERE opponent LIKE concat('%', ?, '%')";
-        try {
-            PreparedStatement stmt = getConnection().prepareStatement(query);
-            stmt.setString(1,text);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                games.add(row2object(rs));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            throw new TicketException(e.getMessage(), e);
-        }
-        return games;
+        return executeQuery("SELECT * FROM game WHERE opponent LIKE concat('%', ?, '%')", new Object[]{text});
     }
 
     @Override
