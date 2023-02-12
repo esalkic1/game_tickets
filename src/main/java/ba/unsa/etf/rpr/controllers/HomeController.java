@@ -104,6 +104,7 @@ public class HomeController {
                 newStage.setTitle("Fk Željezničar ulaznice");
                 newStage.setScene(scene);
                 newStage.setResizable(true);
+                newStage.centerOnScreen();
                 newStage.show();
                 thisStage.close();
             }
@@ -113,6 +114,7 @@ public class HomeController {
                 newStage.setTitle("Fk Željezničar ulaznice");
                 newStage.setScene(scene);
                 newStage.setResizable(false);
+                newStage.centerOnScreen();
                 newStage.show();
                 thisStage.close();
             }
@@ -127,6 +129,7 @@ public class HomeController {
         thisStage.setTitle("Fk Željezničar ulaznice");
         thisStage.setScene(scene);
         thisStage.setResizable(false);
+        thisStage.centerOnScreen();
         thisStage.show();
     }
 }

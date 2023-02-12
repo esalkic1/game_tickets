@@ -114,6 +114,7 @@ public class RegisterController {
         thisStage.setTitle("Fk Željezničar ulaznice");
         thisStage.setScene(scene);
         thisStage.setResizable(false);
+        thisStage.centerOnScreen();
         thisStage.show();
     }
 

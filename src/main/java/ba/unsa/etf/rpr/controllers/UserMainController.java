@@ -87,6 +87,7 @@ public class UserMainController {
         Scene scene = new Scene(fxmlLoader.load(),  USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         thisStage.setTitle("Fk Željezničar ulaznice");
         thisStage.setScene(scene);
+        thisStage.centerOnScreen();
         thisStage.setResizable(false);
         thisStage.show();
     }
@@ -100,6 +101,7 @@ public class UserMainController {
         Stage newStage = new Stage();
         newStage.setTitle("Fk Željezničar ulaznice");
         newStage.setScene(scene);
+        newStage.centerOnScreen();
         newStage.setResizable(false);
         newStage.show();
     }

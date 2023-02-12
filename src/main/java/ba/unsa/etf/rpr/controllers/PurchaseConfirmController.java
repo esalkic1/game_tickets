@@ -168,6 +168,7 @@ public class PurchaseConfirmController {
         Scene scene = new Scene(fxmlLoader.load(),  USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         thisStage.setTitle("Fk Željezničar ulaznice");
         thisStage.setScene(scene);
+        thisStage.centerOnScreen();
         thisStage.setResizable(true);
         thisStage.show();
     }
