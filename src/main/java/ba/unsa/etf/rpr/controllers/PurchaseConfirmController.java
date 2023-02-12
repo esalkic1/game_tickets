@@ -12,10 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,6 +24,9 @@ public class PurchaseConfirmController {
     public ChoiceBox cbStand;
     public Button btnConfirmBuy;
     public Button btnCancel;
+    public TextField tfCardNumber;
+    public TextField tfCVV;
+    public DatePicker dpExpirationDate;
 
     private Customer customer;
     private Game game;
@@ -134,6 +134,32 @@ public class PurchaseConfirmController {
         }
     }
 
+    private String validateCardFields(){
+
+        //card number
+        String returned = "Broj kartice";
+        System.out.println(tfCardNumber.getText());
+        int numberCounter = 0;
+        for(int i = 0; i < tfCardNumber.getText().length(); i++){
+            if(!Character.isDigit(tfCardNumber.getText().charAt(i)) && tfCardNumber.getText().charAt(i) != ' ') return returned;
+            if (Character.isDigit(tfCardNumber.getText().charAt(i))) numberCounter++;
+        }
+        if (numberCounter!=16) return returned;
+
+        //CVV
+        returned = "CVV";
+        String cvv = tfCVV.getText().trim();
+        if(cvv.length() != 3) return returned;
+        for(int i = 0; i<3; i++){
+            if (!Character.isDigit(cvv.charAt(i))) return returned;
+        }
+
+        //Expiration date
+        returned = "Datum isteka";
+        if (dpExpirationDate.getValue() == null) return returned;
+        return "Nema greške";
+    }
+
     public void CancelBtnClick(ActionEvent actionEvent) throws IOException {
         Node node = (Node) actionEvent.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
@@ -147,6 +173,23 @@ public class PurchaseConfirmController {
     }
 
     public void ConfirmBtnClick(ActionEvent actionEvent) {
+        String validationResult = validateCardFields();
+        if(validationResult != "Nema greške"){
+            Alert wrongCardDetails = new Alert(Alert.AlertType.ERROR);
+            wrongCardDetails.setTitle("Error");
+            wrongCardDetails.setHeaderText(validationResult + " nije ispravan!");
+            wrongCardDetails.setContentText("Provjerite podatke i pokušajte ponovo");
+            wrongCardDetails.showAndWait();
+            return;
+        }
+        if(cbStand.getSelectionModel().getSelectedItem() == null){
+            Alert noSelection = new Alert(Alert.AlertType.ERROR);
+            noSelection.setTitle("Error");
+            noSelection.setHeaderText("Niste odabrali tribinu!");
+            noSelection.setContentText("Odaberite tribinu i pokušajte ponovo");
+            noSelection.showAndWait();
+            return;
+        }
         Ticket ticket = new Ticket();
         ticket.setGame(game.getId());
         ticket.setCustomer(customer.getId());
