@@ -15,9 +15,20 @@ import java.util.TreeMap;
 
 public class CustomerDaoSQLImpl extends AbstractDao<Customer> implements CustomerDao{
 
-
-    public CustomerDaoSQLImpl() {
+    private static CustomerDaoSQLImpl instance = null;
+    private CustomerDaoSQLImpl() {
         super("customer");
+    }
+
+    public static CustomerDaoSQLImpl getInstance(){
+        if (instance == null)
+            instance = new CustomerDaoSQLImpl();
+        return instance;
+    }
+
+    public static void removeInstance(){
+        if (instance!=null)
+            instance = null;
     }
 
     /**
@@ -28,38 +39,13 @@ public class CustomerDaoSQLImpl extends AbstractDao<Customer> implements Custome
      */
     @Override
     public List<Customer> searchByName(String text) throws TicketException{
-        ArrayList<Customer> customers = new ArrayList<>();
-        String query = "SELECT * FROM customer WHERE name LIKE concat('%', ?, '%')";
-        try {
-            PreparedStatement stmt = getConnection().prepareStatement(query);
-            stmt.setString(1,text);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                customers.add(row2object(rs));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return customers;
+        return executeQuery("SELECT * FROM customer WHERE name LIKE concat('%', ?, '%')", new Object[]{text});
     }
 
     @Override
     public List<Customer> searchBySurname(String text) throws TicketException{
-        List<Customer> customers = new ArrayList<>();
-        String query = "SELECT * FROM customer WHERE surname LIKE concat('%', ?, '%')";
-        try {
-            PreparedStatement stmt = getConnection().prepareStatement(query);
-            stmt.setString(1,text);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                customers.add(row2object(rs));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            throw new TicketException(e.getMessage(), e);
-        }
-        return customers;
+        return executeQuery("SELECT * FROM customer WHERE surname LIKE concat('%', ?, '%')", new Object[]{text});
+
     }
 
     @Override
