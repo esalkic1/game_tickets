@@ -116,7 +116,7 @@ public class PurchaseConfirmController {
                     lbPrice.setText("5 KM"); break;
             }
         }
-        else if(game.getCompetition().equals("Prijateljska")){
+        else if(game.getCompetition().equals("Prijateljska utakmica")){
             switch (stand) {
                 case "Jug":
                     lbPrice.setText("3 KM"); break;
@@ -154,10 +154,15 @@ public class PurchaseConfirmController {
         String numberOnly = price.replaceAll("[^0-9]", "");
         ticket.setPrice(Integer.parseInt(numberOnly));
         ticket.setStand((String) cbStand.getSelectionModel().getSelectedItem());
-        customer.setNumberOfTickets(customer.getNumberOfTickets()+1);
         try {
             DaoFactory.ticketDao().add(ticket);
-            Alert bought = new Alert(Alert.AlertType.NONE);
+            customer.setNumberOfTickets(customer.getNumberOfTickets()+1);
+            DaoFactory.customerDao().update(customer);
+            Game game = DaoFactory.gameDao().getById(ticket.getGame());
+            game.setSold(game.getSold()+1);
+            DaoFactory.gameDao().update(game);
+            //System.out.println(customer.getNumberOfTickets()+1);
+            Alert bought = new Alert(Alert.AlertType.INFORMATION);
             bought.setTitle("Potvrda");
             bought.setHeaderText("Uspješno ste kupili ulaznicu!");
             bought.setContentText("Kupite još ulaznica za istu utakmicu ili se vratite na izbor druge!");
@@ -166,4 +171,5 @@ public class PurchaseConfirmController {
             throw new RuntimeException(e);
         }
     }
+
 }
