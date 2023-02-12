@@ -14,6 +14,14 @@ public class GameManager {
         return DaoFactory.gameDao().searchByOpponent(text);
     }
 
+    public List<Game> searchByCompetition(String text) throws TicketException{
+        return DaoFactory.gameDao().searchByCompetition(text);
+    }
+
+    public List<Game> searchByOpponentAndCompetition(String opp, String comp) throws TicketException{
+        return DaoFactory.gameDao().searchByOpponentAndCompetition(opp, comp);
+    }
+
     public List<Game> getByDateRange(Date start, Date end) throws TicketException{
         return DaoFactory.gameDao().getByDateRange(start, end);
     }
