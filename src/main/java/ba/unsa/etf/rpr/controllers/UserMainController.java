@@ -32,6 +32,7 @@ public class UserMainController {
     public TableColumn<Game, String> columnOpponent;
     public TableColumn<Game, LocalDate> columnDate;
     public TableColumn<Game, Integer> columnSelling;
+    public TableColumn<Game, Integer> columnCapacity;
     private Customer customer;
 
     private GameManager manager = new GameManager();
@@ -42,6 +43,7 @@ public class UserMainController {
             columnOpponent.setCellValueFactory(new PropertyValueFactory<Game, String>("opponent"));
             columnDate.setCellValueFactory(new PropertyValueFactory<Game, LocalDate>("date"));
             columnSelling.setCellValueFactory(new PropertyValueFactory<Game, Integer>("sold"));
+            columnCapacity.setCellValueFactory(new PropertyValueFactory<Game, Integer>("capacity"));
             tvGamesList.setItems(FXCollections.observableList(manager.getAll()));
         } catch (TicketException e) {
             throw new RuntimeException(e);
@@ -64,6 +66,15 @@ public class UserMainController {
             noSelection.setTitle("Error");
             noSelection.setHeaderText("Niste odabrali utakmicu!");
             noSelection.setContentText("Odaberite utakmicu i pokušajte ponovo");
+            noSelection.showAndWait();
+            return;
+        }
+        Game game = (Game) tvGamesList.getSelectionModel().getSelectedItem();
+        if(game.getSold() == game.getCapacity()){
+            Alert noSelection = new Alert(Alert.AlertType.ERROR);
+            noSelection.setTitle("Error");
+            noSelection.setHeaderText("Nema dostupnih karata!");
+            noSelection.setContentText("Odaberite drugu utakmicu i pokušajte ponovo");
             noSelection.showAndWait();
             return;
         }
