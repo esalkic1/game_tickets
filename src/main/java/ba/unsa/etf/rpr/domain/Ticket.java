@@ -1,5 +1,8 @@
 package ba.unsa.etf.rpr.domain;
 
+import ba.unsa.etf.rpr.dao.DaoFactory;
+import ba.unsa.etf.rpr.exceptions.TicketException;
+
 import java.util.Objects;
 
 /**
@@ -68,12 +71,11 @@ public class Ticket implements Idable{
 
     @Override
     public String toString() {
-        return "Ticket{" +
-                "id=" + id +
-                ", game=" + game +
-                ", customer=" + customer +
-                ", price=" + price +
-                ", stand='" + stand + '\'' +
-                '}';
+        try {
+            return "Protivnik: " + DaoFactory.gameDao().getById(game).getOpponent() + ", tribina: " + stand +
+                    ", datum: " + DaoFactory.gameDao().getById(game).getDate();
+        } catch (TicketException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
