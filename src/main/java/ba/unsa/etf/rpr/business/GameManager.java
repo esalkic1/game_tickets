@@ -10,11 +10,11 @@ import java.util.List;
 
 public class GameManager {
 
-    List<Game> searchByOpponent(String text) throws TicketException{
+    public List<Game> searchByOpponent(String text) throws TicketException{
         return DaoFactory.gameDao().searchByOpponent(text);
     }
 
-    List<Game> getByDateRange(Date start, Date end) throws TicketException{
+    public List<Game> getByDateRange(Date start, Date end) throws TicketException{
         return DaoFactory.gameDao().getByDateRange(start, end);
     }
 
