@@ -5,9 +5,9 @@ package ba.unsa.etf.rpr.dao;
  */
 
 public class DaoFactory {
-    private static final CustomerDao customerDao = new CustomerDaoSQLImpl();
-    private static final GameDao gameDao = new GameDaoSQLImpl();
-    private static final TicketDao ticketDao = new TicketDaoSQLImpl();
+    private static final CustomerDao customerDao = CustomerDaoSQLImpl.getInstance();
+    private static final GameDao gameDao = GameDaoSQLImpl.getInstance();
+    private static final TicketDao ticketDao = TicketDaoSQLImpl.getInstance();
 
     private DaoFactory(){
     }
