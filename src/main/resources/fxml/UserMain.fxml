@@ -48,6 +48,7 @@
           <TableColumn fx:id="columnOpponent" prefWidth="75.0" text="Protivnik" />
             <TableColumn fx:id="columnDate" prefWidth="75.0" text="Datum" />
             <TableColumn fx:id="columnSelling" prefWidth="75.0" text="Prodato" />
+            <TableColumn fx:id="columnCapacity" prefWidth="75.0" text="Kapacitet" />
         </columns>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
