@@ -35,6 +35,14 @@ public class AdminEditController {
 
 
     public void AddGameBtnClick(ActionEvent actionEvent) {
+        if(tfOpponent.getText().trim().equals("") || dpDate.getValue() == null || cbCompetition.getValue() == null || tfCapacity.getText().trim().equals("")){
+            Alert noSelection = new Alert(Alert.AlertType.ERROR);
+            noSelection.setTitle("Error");
+            noSelection.setHeaderText("Sva polja moraju biti unesena!");
+            noSelection.setContentText("Unesite sve i pokušajte ponovo");
+            noSelection.showAndWait();
+            return;
+        }
         Game game = new Game();
         game.setCapacity(Integer.parseInt(tfCapacity.getText()));
         game.setSold(0);
