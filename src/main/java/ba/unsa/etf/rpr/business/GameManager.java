@@ -45,4 +45,10 @@ public class GameManager {
     public List<Game> getAll() throws TicketException{
         return DaoFactory.gameDao().getAll();
     }
+
+    public void validateCompetitionName(String name) throws TicketException {
+        if (name == null || name.length() > 45 || name.length() < 3){
+            throw new TicketException("Competition name must be between 3 and 45 characters");
+        }
+    }
 }
